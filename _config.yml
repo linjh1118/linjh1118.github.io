@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Jinghao Lin"
-description              : "Master student at The Peking Union Medical Collge, Tsinghua University. Co-founder of JLULLM Lab."
+description              : "Master student at NLP at CS, Northeastern University. Co-founder of JLULLM Lab."
 repository               : "linjh1118/linjh1118.github.io"
 google_scholar_stats_use_cdn : true
 
@@ -37,7 +37,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : linjh1118
+  github           : "linjh1118"
   google_plus      :
   keybase          :
   instagram        :
