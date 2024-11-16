@@ -16,6 +16,7 @@ redirect_from:
 {% assign url = gsDataBaseUrl | append: "google-scholar-stats/gs_data_shieldsio.json" %}
 
 <span class='anchor' id='about-me'></span>
+Hello! My name is JinghaoLin(林景豪), and I am currently pursuing my Master's degree in Natural Language Processing at the Department of Computer Science and Engineering, Northeastern University, Beijing, China (2022.09 - 2025.06). Prior to this, I completed my Bachelor’s degree in Applied Physics at Jilin University (2018.09 - 2022.06).
 
 During my academic journey, I have had the opportunity to contribute to several notable projects. One of my papers, "SALMON: A Structure-Aware Language Model with Logicality and Densification Strategy for Temporal Knowledge Graph Reasoning," has been accepted by EMNLP 2024, and I am excited to present it in Miami, USA. Another project, "Joint Framework for Tensor Decomposition-Based Temporal Knowledge Graph Completion," was published in Information Science 2024. This work received recognition with the Best Researcher Award at the International Research Data Analysis Excellence Awards.
 
