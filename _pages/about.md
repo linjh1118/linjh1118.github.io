@@ -25,9 +25,9 @@ To complement my academic pursuits, I have gained valuable industry experience t
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
 # 🔥 News
-- Wish COLING 2025 Accepted...
-- *2024.04*: &nbsp;🎉🎉 My Paper "SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning" Accepted by *EMNLP 2024*, 「meet you in Miami, USA」. 「Tsinghua CCF-A 类会议」
+- *2024.04*: &nbsp;🎉🎉 My EMNLP Paper "SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning" Accepted by *EMNLP 2024*, 「meet you in Miami, USA」. 「Tsinghua CCF-A 类会议」
 - *2023.09*: &nbsp;🎉🎉 Our Paper "Joint framework for tensor decomposition-based temporal knowledge graph completion" Accepted by *Information Science 2024*. 「中科院1区TOP IF=8.1」
+- Wish COLING 2025 Accepted...
 
 # 📝 Publications 
 - *"SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning"* Accepted by EMNLP 2024
@@ -41,6 +41,9 @@ Looking ahead, I am committed to further exploring the intersection of theoretic
 - *2018.09 - 2022.06*, Bachelor of Science in Applied Physics, College of Physics, Jilin University, Jilin, China. 
 
 # 💻 Internships
-- *2024.01 - 2024.05*, [ERNIE-APP-Team in Baidu (百度-文心一言app团队)](https://yiyan.baidu.com/), China.
-- *2024.06 - 2024.10*, [Muse-LM Team of Tencent Lyra Lab (腾讯天琴实验室-MuseAI组)](https://www.163.com/dy/article/J4803D3D0511N33R.html), China.
 - *2024.10 - Now......*, [GLM-v Team of Zhipu AI (智谱清言-GLMv团队)](https://github.com/THUDM/GLM-4), China.
+- *2024.06 - 2024.10*, [Muse-LM Team of Tencent Lyra Lab (腾讯天琴实验室-MuseAI组)](https://www.163.com/dy/article/J4803D3D0511N33R.html), China.
+- *2024.01 - 2024.05*, [ERNIE-APP-Team in Baidu (百度-文心一言app团队)](https://yiyan.baidu.com/), China.
+- *2023.06 - 2023.12*, [中国电信-北京研究院](https://www.163.com/dy/article/IDT4KK2D051288FS.html), China.
+
+
