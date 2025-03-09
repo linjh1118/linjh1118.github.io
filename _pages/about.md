@@ -25,6 +25,7 @@ To complement my academic pursuits, I have gained valuable industry experience t
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
 # 🔥 News
+- *2025.02*: &nbsp;🙏🏻🙏🏻 Wish Miccai Accepted.
 - *2024.11*: &nbsp;🎉🎉 Our Paper *"RRHF-V: Ranking Responses to Mitigate Hallucinations in Multimodal Large Language Models with Human Feedback"* Accepted by ⭐️*COLING 2025*⭐️, 「meet you in Abu Dhabi, UAE」.
 - *2024.04*: &nbsp;🎉🎉 My Paper *"SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning"* Accepted by ⭐️*EMNLP 2024*⭐️, 「meet you in Miami, USA」. 「Tsinghua CCF-A 类会议」
 - *2023.09*: &nbsp;🎉🎉 Our Paper "Joint framework for tensor decomposition-based temporal knowledge graph completion" Accepted by *Information Science 2024*. 「CCF-B 中科院1区TOP IF=8.1」
