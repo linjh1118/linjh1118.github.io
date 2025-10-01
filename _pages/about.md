@@ -43,7 +43,8 @@ Looking ahead, I am committed to further exploring the intersection of theoretic
 - *2018.09 - 2022.06*, Bachelor of Science in Applied Physics, College of Physics, Jilin University, Jilin, China. 
 
 # 💻 Internships
-- *2024.10 - Now......*, [GLM-v Team of Zhipu AI (智谱清言-GLMv团队)](https://github.com/THUDM/GLM-4), China.
+- *2025.03 - Now......*, [AI/ML Group of Microsoft Research Asia (微软亚洲研究院-AI/ML组)](https://www.microsoft.com/en-us/research/lab/microsoft-research-asia-zh-cn/), China.
+- *2024.10 - 2025.03*, [GLM-v Team of Zhipu AI (智谱清言-GLMv团队)](https://github.com/THUDM/GLM-4), China.
 - *2024.06 - 2024.10*, [Muse-LM Team of Tencent Lyra Lab (腾讯天琴实验室-MuseAI组)](https://www.163.com/dy/article/J4803D3D0511N33R.html), China.
 - *2024.01 - 2024.05*, [ERNIE-APP-Team in Baidu (百度-文心一言app团队)](https://yiyan.baidu.com/), China.
 - *2023.06 - 2023.12*, [中国电信-北京研究院](https://www.163.com/dy/article/IDT4KK2D051288FS.html), China.
