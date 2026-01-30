@@ -2,13 +2,13 @@
   "meta": {
     "title": "豪哥的知识库",
     "description": "第二大脑 · 由 Jarvis 协助维护",
-    "updated": "2026-01-30T19:13:00+08:00"
+    "updated": "2026-01-30T19:19:00+08:00"
   },
   "notes": [
     {
       "id": "note-1",
       "title": "如何高效学习",
-      "path": "notes/如何高效学习.md",
+      "path": "notes/how-to-learn.md",
       "tags": ["学习", "方法论", "认知"],
       "category": "notes",
       "created": "2026-01-30",
@@ -18,7 +18,7 @@
     {
       "id": "note-2",
       "title": "程序员效率工具",
-      "path": "notes/程序员效率工具.md",
+      "path": "notes/programmer-tools.md",
       "tags": ["工具", "效率", "编程"],
       "category": "notes",
       "created": "2026-01-30",
