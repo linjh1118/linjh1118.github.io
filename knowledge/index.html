@@ -277,7 +277,7 @@
     
     <script>
         let notesData = [];
-        const BASE_URL = '';  // 相对路径
+        const RAW_BASE = 'https://raw.githubusercontent.com/linjh1118/linjh1118.github.io/main/knowledge/';
         
         // 配置 marked
         marked.setOptions({
@@ -353,13 +353,13 @@
             
             document.getElementById('noteTags').innerHTML = note.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
             document.getElementById('noteDate').textContent = `创建于 ${note.created}`;
-            document.getElementById('rawLink').href = note.path;
+            document.getElementById('rawLink').href = RAW_BASE + note.path;
             
-            // 加载并渲染 Markdown
+            // 加载并渲染 Markdown (从 GitHub Raw 获取)
             document.getElementById('noteContent').innerHTML = '<div class="loading">加载中...</div>';
             
             try {
-                const response = await fetch(note.path);
+                const response = await fetch(RAW_BASE + note.path);
                 let content = await response.text();
                 
                 // 移除 YAML front matter
