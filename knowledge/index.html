@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 豪哥的知识库</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11"></script>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-orange: #d29922;
+            --border: #30363d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .logo-sub { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px; }
+        .search-box { position: relative; margin-bottom: 24px; }
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        .search-box input:focus { outline: none; border-color: var(--accent); }
+        .search-box::before { content: "🔍"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); }
+        .nav-section { margin-bottom: 24px; }
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-bottom: 4px;
+        }
+        .nav-item:hover { background: var(--bg-tertiary); }
+        .nav-item.active { background: rgba(88, 166, 255, 0.15); color: var(--accent); }
+        .nav-item .count {
+            margin-left: auto;
+            background: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .home-link {
+            display: block;
+            margin-top: 24px;
+            padding: 10px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .home-link:hover { color: var(--accent); }
+        
+        /* 主内容区 */
+        .main { padding: 32px 48px; max-width: 900px; }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .page-title { font-size: 2rem; }
+        .back-btn {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .back-btn:hover { border-color: var(--accent); }
+        
+        /* 笔记列表 */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .note-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.15s;
+        }
+        .note-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .note-card .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+        .note-card .preview {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .note-card .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .tag {
+            background: var(--bg-tertiary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        /* 笔记详情 */
+        .note-detail { display: none; }
+        .note-detail.active { display: block; }
+        .note-list.hidden { display: none; }
+        .note-meta-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .note-meta-bar .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .note-meta-bar .date { margin-left: auto; color: var(--text-secondary); font-size: 0.85rem; }
+        .note-meta-bar .raw-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .note-meta-bar .raw-link:hover { text-decoration: underline; }
+        
+        /* Markdown 渲染 */
+        .markdown-body {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 32px 40px;
+            line-height: 1.7;
+        }
+        .markdown-body h1 { font-size: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 24px; }
+        .markdown-body h2 { font-size: 1.5rem; margin-top: 32px; margin-bottom: 16px; color: var(--accent); }
+        .markdown-body h3 { font-size: 1.2rem; margin-top: 24px; margin-bottom: 12px; }
+        .markdown-body p { margin-bottom: 16px; }
+        .markdown-body ul, .markdown-body ol { margin-bottom: 16px; padding-left: 24px; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9em;
+        }
+        .markdown-body pre {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        .markdown-body pre code { background: none; padding: 0; }
+        .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+        .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 10px 14px; text-align: left; }
+        .markdown-body th { background: var(--bg-tertiary); }
+        .markdown-body blockquote { border-left: 4px solid var(--accent); padding-left: 16px; margin: 16px 0; color: var(--text-secondary); }
+        .markdown-body a { color: var(--accent); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+        
+        .loading { text-align: center; padding: 40px; color: var(--text-secondary); }
+        .error { background: rgba(248, 81, 73, 0.1); border: 1px solid #f85149; border-radius: 8px; padding: 20px; color: #f85149; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">📚 知识库</div>
+            <div class="logo-sub">豪哥的第二大脑</div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="搜索笔记..." id="searchInput">
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-title">分类</div>
+                <div class="nav-item active" onclick="showList('all')">
+                    <span>🏠</span> 全部笔记
+                    <span class="count" id="countAll">0</span>
+                </div>
+                <div class="nav-item" onclick="showList('notes')">
+                    <span>📝</span> 永久笔记
+                    <span class="count" id="countNotes">0</span>
+                </div>
+                <div class="nav-item" onclick="showList('daily')">
+                    <span>📅</span> 每日笔记
+                    <span class="count" id="countDaily">0</span>
+                </div>
+            </nav>
+            
+            <nav class="nav-section" id="noteListNav">
+                <div class="nav-title">笔记列表</div>
+            </nav>
+            
+            <a href="https://linjh1118.github.io/" class="home-link">← 返回主页</a>
+        </aside>
+        
+        <main class="main">
+            <div class="page-header">
+                <h1 class="page-title" id="pageTitle">📚 全部笔记</h1>
+                <button class="back-btn" id="backBtn" onclick="showList('all')">← 返回列表</button>
+            </div>
+            
+            <div class="notes-grid note-list" id="noteList">
+                <div class="loading">加载中...</div>
+            </div>
+            
+            <div class="note-detail" id="noteDetail">
+                <div class="note-meta-bar">
+                    <div class="tags" id="noteTags"></div>
+                    <a class="raw-link" id="rawLink" href="#" target="_blank">查看源文件</a>
+                    <div class="date" id="noteDate"></div>
+                </div>
+                <div class="markdown-body" id="noteContent"></div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        let notesData = [];
+        const BASE_URL = '';  // 相对路径
+        
+        // 配置 marked
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+        
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                notesData = data.notes;
+                updateCounts();
+                renderNoteList('all');
+                renderNavList();
+            } catch (error) {
+                document.getElementById('noteList').innerHTML = 
+                    '<div class="error">加载失败: ' + error.message + '</div>';
+            }
+        }
+        
+        function updateCounts() {
+            document.getElementById('countAll').textContent = notesData.length;
+            document.getElementById('countNotes').textContent = notesData.filter(n => n.category === 'notes').length;
+            document.getElementById('countDaily').textContent = notesData.filter(n => n.category === 'daily').length;
+        }
+        
+        function renderNavList() {
+            const nav = document.getElementById('noteListNav');
+            nav.innerHTML = '<div class="nav-title">笔记列表</div>' + 
+                notesData.map(note => `
+                    <div class="nav-item" onclick="showNote('${note.id}')">
+                        <span>${note.category === 'daily' ? '📅' : '📝'}</span> ${note.title}
+                    </div>
+                `).join('');
+        }
+        
+        function renderNoteList(category) {
+            const filtered = category === 'all' ? notesData : notesData.filter(n => n.category === category);
+            const grid = document.getElementById('noteList');
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="loading">暂无笔记</div>';
+                return;
+            }
+            
+            grid.innerHTML = filtered.map(note => `
+                <div class="note-card" onclick="showNote('${note.id}')">
+                    <div class="title">${note.title}</div>
+                    <div class="preview">${note.preview}</div>
+                    <div class="meta">
+                        ${note.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function showNote(noteId) {
+            const note = notesData.find(n => n.id === noteId);
+            if (!note) return;
+            
+            document.getElementById('noteList').classList.add('hidden');
+            document.getElementById('noteDetail').classList.add('active');
+            document.getElementById('backBtn').style.display = 'flex';
+            document.getElementById('pageTitle').textContent = note.title;
+            
+            document.getElementById('noteTags').innerHTML = note.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            document.getElementById('noteDate').textContent = `创建于 ${note.created}`;
+            document.getElementById('rawLink').href = note.path;
+            
+            // 加载并渲染 Markdown
+            document.getElementById('noteContent').innerHTML = '<div class="loading">加载中...</div>';
+            
+            try {
+                const response = await fetch(note.path);
+                let content = await response.text();
+                
+                // 移除 YAML front matter
+                content = content.replace(/^---[\s\S]*?---\n*/m, '');
+                
+                document.getElementById('noteContent').innerHTML = marked.parse(content);
+                document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+            } catch (error) {
+                document.getElementById('noteContent').innerHTML = 
+                    '<div class="error">加载失败: ' + error.message + '</div>';
+            }
+        }
+        
+        function showList(category = 'all') {
+            document.getElementById('noteList').classList.remove('hidden');
+            document.getElementById('noteDetail').classList.remove('active');
+            document.getElementById('backBtn').style.display = 'none';
+            
+            const titles = { all: '📚 全部笔记', notes: '📝 永久笔记', daily: '📅 每日笔记' };
+            document.getElementById('pageTitle').textContent = titles[category] || titles.all;
+            
+            renderNoteList(category);
+        }
+        
+        // 搜索
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            showList('all');
+            
+            document.querySelectorAll('.note-card').forEach(card => {
+                const title = card.querySelector('.title').textContent.toLowerCase();
+                const preview = card.querySelector('.preview').textContent.toLowerCase();
+                card.style.display = (title.includes(query) || preview.includes(query)) ? 'block' : 'none';
+            });
+        });
+        
+        // 初始化
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "豪哥的知识库",
+    "description": "第二大脑 · 由 Jarvis 协助维护",
+    "updated": "2026-01-30T19:13:00+08:00"
+  },
+  "notes": [
+    {
+      "id": "note-1",
+      "title": "如何高效学习",
+      "path": "notes/如何高效学习.md",
+      "tags": ["学习", "方法论", "认知"],
+      "category": "notes",
+      "created": "2026-01-30",
+      "updated": "2026-01-30",
+      "preview": "核心原则：主动回忆、间隔重复、关联学习、费曼技巧。"
+    },
+    {
+      "id": "note-2",
+      "title": "程序员效率工具",
+      "path": "notes/程序员效率工具.md",
+      "tags": ["工具", "效率", "编程"],
+      "category": "notes",
+      "created": "2026-01-30",
+      "updated": "2026-01-30",
+      "preview": "终端工具：tmux、zsh、fzf、ripgrep。编辑器：Cursor、Neovim。"
+    },
+    {
+      "id": "daily-1",
+      "title": "2026-01-30 周五",
+      "path": "daily/2026-01-30.md",
+      "tags": ["日记"],
+      "category": "daily",
+      "created": "2026-01-30",
+      "updated": "2026-01-30",
+      "preview": "配置飞书机器人、安装 tmux、搭建知识管理系统。"
+    }
+  ]
+}
