@@ -24,16 +24,13 @@ To complement my academic pursuits, I have gained valuable industry experience t
 
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
-# 🔥 News
-- *2025.02*: &nbsp;🙏🏻🙏🏻 Wish two recent papers Accepted.
-- *2024.11*: &nbsp;🎉🎉 Our Paper *"RRHF-V: Ranking Responses to Mitigate Hallucinations in Multimodal Large Language Models with Human Feedback"* Accepted by ⭐️*COLING 2025*⭐️, 「meet you in Abu Dhabi, UAE」.
-- *2024.04*: &nbsp;🎉🎉 My Paper *"SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning"* Accepted by ⭐️*EMNLP 2024*⭐️, 「meet you in Miami, USA」. 「Tsinghua CCF-A 类会议」
-- *2023.09*: &nbsp;🎉🎉 Our Paper "Joint framework for tensor decomposition-based temporal knowledge graph completion" Accepted by *Information Science 2024*. 「CCF-B 中科院1区TOP IF=8.1」
-
-# 📝 Publications 
-- ⭐️*EMNLP 2024*⭐️: *"SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning"*
-- ⭐️*COLING 2025*⭐️: *"RRHF-V: Ranking Responses to Mitigate Hallucinations in Multimodal Large Language Models with Human Feedback"*
-- *"Joint framework for tensor decomposition-based temporal knowledge graph completion"* Accepted by *Information Science 2024*
+# 🔥 Publications 
+- *2026.01*: &nbsp;🎉🎉 Paper *"Cycle‑Align: Leveraging Circular Alignment to Optimize LLM Understanding of Collaborative Signals"* Accepted by ⭐️DSAFAA 2026⭐️. 
+- *2025.11*: &nbsp;🎉🎉 Paper *"VCGD: Visual Clue Guided Decoding with Caption Model for Mitigating Hallucination in Multimodal Large Language Models"* Accepted by ⭐️AAAI 2026⭐️. 
+- *2025.07*: &nbsp;🎉🎉 Paper *"GLM-4.5V and GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning"* release! GLM-4.5V: 41 SOTA in 42 multimodal benchmarks, almost unbeatable in open-source visual reasoning
+- *2024.11*: &nbsp;🎉🎉 Paper *"RRHF-V: Ranking Responses to Mitigate Hallucinations in Multimodal Large Language Models with Human Feedback"* Accepted by ⭐️*COLING 2025*⭐️, 「meet you in Abu Dhabi, UAE」.
+- *2024.04*: &nbsp;🎉🎉 Paper *"SALMON: A Structure-Aware Language Model with logicality and densification strategy for Temporal Knowledge Graph Reasoning"* Accepted by ⭐️*EMNLP 2024*⭐️, 「meet you in Miami, USA」. 「Tsinghua CCF-A 类会议」
+- *2023.09*: &nbsp;🎉🎉 Paper "Joint framework for tensor decomposition-based temporal knowledge graph completion" Accepted by *Information Science 2024*. 「CCF-B 中科院1区TOP IF=8.1」
 
 # 🎖 Honors and Awards
 - *2024* ⭐️***Best Researcher Award***⭐️ at the International Research Data Analysis Excellence Awards for *"Joint framework for tensor decomposition-based temporal knowledge graph completion"* of *Information Science 2024*.
