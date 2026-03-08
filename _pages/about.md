@@ -24,8 +24,9 @@ To complement my academic pursuits, I have gained valuable industry experience t
 
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
-# 🔥 Publications 
-- *2026.01*: &nbsp;🎉🎉 Paper *"Cycle‑Align: Leveraging Circular Alignment to Optimize LLM Understanding of Collaborative Signals"* Accepted by ⭐️DSAFAA 2026⭐️. 
+# 🔥 Publications
+- *2026.02*: &nbsp;🎉🎉 Paper *"MedXIAOHE: A Comprehensive Recipe for Building Medical MLLMs"* release! MedXIAOHE: a medical vision-language foundation model with SOTA across diverse medical benchmarks, surpassing leading closed-source systems
+- *2026.01*: &nbsp;🎉🎉 Paper *"Cycle‑Align: Leveraging Circular Alignment to Optimize LLM Understanding of Collaborative Signals"* Accepted by ⭐️DSAFAA 2026⭐️.
 - *2025.11*: &nbsp;🎉🎉 Paper *"VCGD: Visual Clue Guided Decoding with Caption Model for Mitigating Hallucination in Multimodal Large Language Models"* Accepted by ⭐️AAAI 2026⭐️. 
 - *2025.07*: &nbsp;🎉🎉 Paper *"GLM-4.5V and GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning"* release! GLM-4.5V: 41 SOTA in 42 multimodal benchmarks, almost unbeatable in open-source visual reasoning
 - *2024.11*: &nbsp;🎉🎉 Paper *"RRHF-V: Ranking Responses to Mitigate Hallucinations in Multimodal Large Language Models with Human Feedback"* Accepted by ⭐️*COLING 2025*⭐️, 「meet you in Abu Dhabi, UAE」.
