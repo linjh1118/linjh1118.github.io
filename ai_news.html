@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI资讯聚合导航 - 每日AI新闻与小红书趋势</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .category p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .link-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .link-card:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .link-card h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .link-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .link-card a {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .link-card a:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .special-note {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .special-note h3 {
+            color: #d63031;
+            margin-bottom: 15px;
+        }
+
+        .special-note p {
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI资讯聚合导航</h1>
+            <p>每日AI新闻与小红书趋势一站式浏览</p>
+        </div>
+
+        <div class="special-note">
+            <h3>💡 使用建议</h3>
+            <p>• 英文前沿+快讯：THE DECODER + Techmeme River + The Rundown AI</p>
+            <p>• 中文快读：AIHub.cn + 机器之心/量子位</p>
+            <p>• 小红书趋势：新红（日榜/话题榜）或千瓜数据</p>
+        </div>
+
+        <div class="category">
+            <h2>🌐 AI聚合/快讯站</h2>
+            <p>实时更新AI行业的资讯、新闻、热点，适合快速了解当日AI动向</p>
+            <div class="links-grid">
+                <div class="link-card">
+                    <h3>AIHub.cn</h3>
+                    <p>中文AI快讯，偏工具导航+快讯，持续更新AI新闻与新品发布</p>
+                    <a href="https://www.aihub.cn/newsletter/" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>THE DECODER</h3>
+                    <p>英文AI新闻与研究栏目，更新频率高、选题偏前沿</p>
+                    <a href="https://the-decoder.com/artificial-intelligence-news/" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>AITopics</h3>
+                    <p>AAAI官方聚合，权威背景阅读和检索，适合深度研究</p>
+                    <a href="https://interactiveaimag.org/about-us/" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>The Rundown AI</h3>
+                    <p>英文"每日5分钟"AI新闻与实用技巧，读者量级大</p>
+                    <a href="https://www.therundown.ai/" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>Techmeme River</h3>
+                    <p>英文科技新闻流，AI相关动态很全，时效性强</p>
+                    <a href="https://techmeme.com/river" target="_blank">访问网站</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📰 中文/行业媒体</h2>
+            <p>精选深度内容，覆盖研究解读与产业应用，适合获取产业面与投融资节奏</p>
+            <div class="links-grid">
+                <div class="link-card">
+                    <h3>机器之心 (Synced)</h3>
+                    <p>中文AI垂直媒体，覆盖研究解读与产业应用</p>
+                    <a href="https://ai.openi.cn/sites/JiQiZhiXin.html" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>量子位</h3>
+                    <p>中文科技/AI媒体，节奏快、新闻与活动覆盖广</p>
+                    <a href="https://news.sina.cn/ai/2024-08-03/detail-inchiuqf2936250.d.html" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>36氪</h3>
+                    <p>科技媒体AI栏目，适合获取产业面与投融资节奏</p>
+                    <a href="https://36kr.com/video/1964333670721795" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>极客公园</h3>
+                    <p>科技媒体，提供深度的科技分析和行业洞察</p>
+                    <a href="https://www.geekpark.net/" target="_blank">访问网站</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📱 小红书数据平台</h2>
+            <p>小红书数据分析与榜单，适合品牌/选题/达人投放参考和趋势监测</p>
+            <div class="links-grid">
+                <div class="link-card">
+                    <h3>新榜·新红</h3>
+                    <p>提供小红书日榜/话题榜与账号数据，适合做趋势和内容监测</p>
+                    <a href="https://www.newrank.cn/ranklist/xiaohongshu/1/1" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>千瓜数据</h3>
+                    <p>小红书数据分析与榜单，适合品牌/选题/达人投放参考</p>
+                    <a href="https://www.qian-gua.com/" target="_blank">访问网站</a>
+                </div>
+                <div class="link-card">
+                    <h3>RSSHub</h3>
+                    <p>将小红书转成RSS源，可接入RSS阅读器进行订阅</p>
+                    <a href="https://rsshub.netlify.app/zh/routes/social-media" target="_blank">访问网站</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💡 提示：点击链接将在新标签页中打开，方便您同时浏览多个网站</p>
+            <p>🔄 建议收藏此页面，每日访问获取最新AI资讯和小红书趋势</p>
+        </div>
+    </div>
+</body>
+</html>
