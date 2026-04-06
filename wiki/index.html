@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Wiki — Agent/Skill & RL for LLM</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"><\/script>
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --bg-hover: #1f2937;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --border-color: #30363d;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb;
+    --green: #3fb950;
+    --orange: #d29922;
+    --purple: #bc8cff;
+    --red: #f85149;
+    --sidebar-width: 280px;
+    --header-height: 52px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== Layout ===== */
+  .app { display: flex; min-height: 100vh; }
+
+  /* ===== Sidebar ===== */
+  .sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.25s ease;
+  }
+  .sidebar-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .sidebar-header h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+  .sidebar-header .subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .sidebar-section {
+    padding: 8px 0;
+  }
+  .sidebar-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 8px 16px 4px;
+  }
+  .sidebar-link {
+    display: block;
+    padding: 5px 16px 5px 24px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s ease;
+  }
+  .sidebar-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+  .sidebar-link.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(88,166,255,0.06);
+  }
+  .sidebar-link .cat-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    opacity: 0.7;
+  }
+  .tag-concepts { background: #1f3a5f; color: #58a6ff; }
+  .tag-papers { background: #3b2e5a; color: #bc8cff; }
+
+  /* ===== Main Content ===== */
+  .main-wrap {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+  }
+  .top-bar {
+    height: var(--header-height);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    gap: 12px;
+  }
+  .hamburger {
+    display: none;
+    background: none; border: none; color: var(--text-primary);
+    font-size: 22px; cursor: pointer; padding: 4px;
+  }
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .breadcrumb .sep { margin: 0 6px; color: var(--border-color); }
+  .breadcrumb .current { color: var(--text-primary); font-weight: 500; }
+  .back-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    width: 100%;
+  }
+
+  /* ===== Markdown Rendering ===== */
+  .md-body h1 { font-size: 28px; font-weight: 700; margin: 0 0 16px; color: var(--text-primary); letter-spacing: -0.5px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+  .md-body h2 { font-size: 20px; font-weight: 600; margin: 28px 0 12px; color: var(--text-primary); letter-spacing: -0.3px; }
+  .md-body h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; color: var(--text-primary); }
+  .md-body h4 { font-size: 14px; font-weight: 600; margin: 16px 0 6px; color: var(--text-secondary); }
+  .md-body p { margin: 0 0 12px; color: var(--text-secondary); font-size: 14px; }
+  .md-body ul, .md-body ol { margin: 0 0 12px 24px; color: var(--text-secondary); font-size: 14px; }
+  .md-body li { margin: 4px 0; }
+  .md-body strong { color: var(--text-primary); }
+  .md-body em { color: var(--text-secondary); font-style: italic; }
+  .md-body blockquote {
+    border-left: 3px solid var(--accent-dim);
+    padding: 4px 16px;
+    margin: 12px 0;
+    color: var(--text-secondary);
+    background: rgba(31,111,235,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+  .md-body code {
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    color: var(--orange);
+  }
+  .md-body pre {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+  .md-body pre code {
+    background: none;
+    padding: 0;
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .md-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .md-body thead th {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border-color);
+  }
+  .md-body tbody td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+  .md-body tbody tr:hover { background: var(--bg-hover); }
+  .md-body hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+  }
+
+  /* Wikilinks */
+  .wikilink {
+    color: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(88,166,255,0.4);
+    transition: border-color 0.15s;
+  }
+  .wikilink:hover { border-bottom-color: var(--accent); }
+  .wikilink.broken { color: var(--red); border-bottom-color: rgba(248,81,73,0.4); }
+
+  /* Index cards */
+  .index-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .index-card:hover {
+    border-color: var(--accent-dim);
+    box-shadow: 0 0 0 1px var(--accent-dim);
+  }
+  .index-card h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .index-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* Search */
+  .search-box {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .search-box input {
+    width: 100%;
+    padding: 6px 10px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box input:focus { border-color: var(--accent-dim); }
+
+  /* ===== Mobile ===== */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+  }
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.show { display: block; }
+    .main-wrap { margin-left: 0; }
+    .hamburger { display: block; }
+    .content { padding: 20px 16px 60px; }
+  }
+
+  /* ===== Graph ===== */
+  .graph-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="app">
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>LLM Wiki</h2>
+      <div class="subtitle">Agent/Skill & RL for LLM</div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search pages..." oninput="filterSidebar(this.value)">
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Home</div>
+      <a class="sidebar-link active" data-page="index" onclick="navigate('index')">
+        📋 Index
+      </a>
+    </div>
+
+    <div class="sidebar-section" id="conceptsSection">
+      <div class="sidebar-section-title">Concepts <span style="opacity:.5;font-size:10px">(10</span>)</div>
+      <a class="sidebar-link" data-page="agent_benchmark" onclick="navigate('agent_benchmark')">Agent Benchmark<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="agent_grpo_rl" onclick="navigate('agent_grpo_rl')">Agent Grpo Rl<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="agent_medical" onclick="navigate('agent_medical')">Agent Medical<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="agent_skill_internalization" onclick="navigate('agent_skill_internalization')">Agent Skill Internalization<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="agent_skill_learning" onclick="navigate('agent_skill_learning')">Agent Skill Learning<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="agent_tool_use" onclick="navigate('agent_tool_use')">Agent Tool Use<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="rl_dpo_variants" onclick="navigate('rl_dpo_variants')">Rl Dpo Variants<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="rl_grpo" onclick="navigate('rl_grpo')">Rl Grpo<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="rl_trajectory_preference" onclick="navigate('rl_trajectory_preference')">Rl Trajectory Preference<span class="cat-tag tag-concepts">C</span></a>
+      <a class="sidebar-link" data-page="rl_verifiable_reward" onclick="navigate('rl_verifiable_reward')">Rl Verifiable Reward<span class="cat-tag tag-concepts">C</span></a>
+    </div>
+
+    <div class="sidebar-section" id="papersSection">
+      <div class="sidebar-section-title">Papers <span style="opacity:.5;font-size:10px">(4)</span></div>
+      <a class="sidebar-link" data-page="agent_gigpo_2025" onclick="navigate('agent_gigpo_2025')">Agent Gigpo 2025<span class="cat-tag tag-papers">P</span></a>
+      <a class="sidebar-link" data-page="agent_search_r1_2025" onclick="navigate('agent_search_r1_2025')">Agent Search R1 2025<span class="cat-tag tag-papers">P</span></a>
+      <a class="sidebar-link" data-page="agent_skill0_2026" onclick="navigate('agent_skill0_2026')">Agent Skill0 2026<span class="cat-tag tag-papers">P</span></a>
+      <a class="sidebar-link" data-page="rl_deepseek_r1_2025" onclick="navigate('rl_deepseek_r1_2025')">Rl Deepseek R1 2025<span class="cat-tag tag-papers">P</span></a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main-wrap">
+    <div class="top-bar">
+      <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+      <div class="breadcrumb" id="breadcrumb">
+        <span class="current">Index</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="md-body" id="content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Data =====
+const PAGES = {"index": {"content": "# LLM Wiki Index\n\n> 基于 Karpathy LLM Wiki 模式的个人知识库，覆盖 Agent/Skill 和 RL for LLM 两个研究方向。\n> 所有内容来源于公开论文和 arXiv，不包含任何私有实验数据。\n\n---\n\n## 概念页 (Concepts)\n\n### Agent/Skill 方向\n\n| 页面 | 一句话描述 | 关键论文 |\n|------|-----------|---------|\n| [[agent_skill_learning]] | Agent 技能学习的分层体系（Prompt→SFT→RL→Self-Evolve） | arXiv:2602.12430, 2602.20867 |\n| [[agent_skill_internalization]] | 将 prompt-level 技能内化到模型参数 | arXiv:2604.02268, 2603.16843 |\n| [[agent_grpo_rl]] | GRPO 及其变体在 Agent RL 训练中的应用 | arXiv:2505.10978 (GiGPO) |\n| [[agent_tool_use]] | LLM 工具使用的学习、选择和组合 | arXiv:2602.12430, 2603.09036 |\n| [[agent_medical]] | 医学领域的 AI Agent 系统 | arXiv:2503.18968, MedAgentBench |\n| [[agent_benchmark]] | Agent 评测框架和 Benchmark | WebArena, GAIA, SWE-bench |\n\n### RL for LLM 方向\n\n| 页面 | 一句话描述 | 关键论文 |\n|------|-----------|---------|\n| [[rl_dpo_variants]] | DPO 及其变体（Step/Turn/Trajectory-DPO, KTO, ORPO） | DPO NeurIPS'23 |\n| [[rl_grpo]] | GRPO 算法：无 critic 的在线 RL，DeepSeek-R1 的核心 | DeepSeek-R1 |\n| [[rl_trajectory_preference]] | 轨迹级偏好优化，Agent 场景的 credit assignment | arXiv:2406.08982 |\n| [[rl_verifiable_reward]] | 可验证奖励：代码/数学/推理的自动 reward | DeepSeek-R1, Search-R1 |\n\n---\n\n## 论文页 (Papers)\n\n### Agent/Skill 论文\n\n| 论文 | 会议 | 核心方法 |\n|------|------|---------|\n| [[agent_skill0_2026]] | arXiv 2026 | Skill internalization via curriculum RL |\n| [[agent_gigpo_2025]] | NeurIPS 2025 | Group-in-Group PO for agent training |\n| [[agent_search_r1_2025]] | arXiv 2025 | RL for search agent with verifiable reward |\n\n### RL for LLM 论文\n\n| 论文 | 会议 | 核心方法 |\n|------|------|---------|\n| [[rl_deepseek_r1_2025]] | arXiv 2025.01 | GRPO + verifiable reward @ 671B |\n\n---\n\n## 交叉引用图谱\n\n```\nAgent/Skill 域                          RL for LLM 域\n┌──────────────────┐                   ┌──────────────────┐\n│ skill_learning   │                   │ dpo_variants     │\n│       │          │                   │       │          │\n│ skill_internal───┼───────────────────┼──trajectory_pref │\n│       │          │                   │       │          │\n│ grpo_rl ─────────┼───────────────────┼──grpo            │\n│       │          │                   │       │          │\n│ tool_use         │                   │ verifiable_reward│\n│       │          │                   └──────────────────┘\n│ medical          │                           │\n│       │          │◄──────────────────────────┘\n│ benchmark        │     (verifiable reward\n└──────────────────┘      用于 agent 训练)\n```\n\n## 待扩展（Future Ingest）\n\n以下论文/主题尚未编译，优先级高：\n- [ ] Step-DPO (arXiv:2406.08982) — Step-level preference\n- [ ] SCALAR (arXiv:2603.09036) — Skill composition\n- [ ] SkillRL (arXiv:2602.08234) — Recursive skill-augmented RL\n- [ ] AT-GRPO (arXiv:2510.11062) — Multi-agent GRPO\n- [ ] Training-Free GRPO (arXiv:2510.08191) — No-training adaptation\n- [ ] RAGEN (2025) — Training agent by reinforcing reasoning\n- [ ] MedAgent-Pro (arXiv:2503.18968) — Medical agent\n- [ ] RL for LLM Agent Planning (EMNLP 2025)", "category": "root", "file": "INDEX.md"}, "log": {"content": "# Wiki Operation Log\n\n> 所有 ingest / query / lint 操作按时间顺序追加到此文件。\n\n---\n\n## [2026-04-06] init | Wiki 初始化\n\n- 创建三层目录结构: raw/, wiki/, _schema/\n- 编写 schema 文件: `_schema/WIKI.md`\n- 首批编译计划: Agent/Skill 方向 ~25 篇论文 + RL for LLM 方向 ~25 篇论文\n- 来源: 公开 arXiv 论文 + 已发表会议论文", "category": "root", "file": "LOG.md"}, "agent_benchmark": {"content": "# Agent Benchmark and Evaluation\n\n## 一句话定义\n用于评估 LLM Agent 能力的标准化测试框架，涵盖工具使用、多步推理、安全性等维度。\n\n## 核心思想\n\nAgent 评测比传统 LLM 评测复杂得多：\n- **过程评估** — 不只看最终答案，还要评估中间步骤\n- **环境交互** — Agent 需要与真实/模拟环境交互\n- **多维度** — 正确性、效率、安全性、鲁棒性\n\n## 主要 Benchmark 分类\n\n### 通用 Agent 评测\n\n| Benchmark | 任务数 | 特点 |\n|-----------|--------|------|\n| WebArena | 812 | 真实网页环境 |\n| BrowseComp | 171 | 信息搜索正确性 |\n| GAIA | 466 | 通用 AI 助手评测 |\n| SWE-bench | 2294 | 软件工程任务 |\n| AgentBench | 805 | 多环境综合评测 |\n\n### 工具使用评测\n\n| Benchmark | 特点 |\n|-----------|------|\n| ToolBench | 16000+ API |\n| API-Bank | 层级式工具调用 |\n| SkillBench | 22 skill + harness + pytest |\n| SkillsBench | 56+ 多轮代码生成 |\n\n### 医学 Agent 评测\n\n| Benchmark | 特点 |\n|-----------|------|\n| MedAgentBench | 虚拟 EHR 环境 |\n| ClinicaBench | 临床决策评测 |\n| Action-based Reasoning (arXiv:2601.08988) | 多步临床推理 |\n\n### 安全对齐评测\n\n| Benchmark | 特点 |\n|-----------|------|\n| WildClawBench | 10 项安全对齐测试 |\n| ZClawBench | LLM Judge 评测 |\n\n## 代表性论文\n\n1. SoK: Agentic Skills — SkillsBench (arXiv:2602.20867)\n2. Action-based Reasoning for Medical AI Agents (arXiv:2601.08988)\n3. MedAgentBench (NEJM AI 2026)\n4. WebArena (ICLR 2024)\n5. SWE-bench (ICLR 2024)\n\n## 开放问题\n\n- 评测与现实差距：benchmark 上的高分是否意味着真实场景好用？\n- Agent 评测的 reproducibility\n- 如何评估 Agent 的鲁棒性和安全性\n- 评测成本：Agent 评测需要真实环境交互，成本高昂", "category": "concepts", "file": "agent_benchmark.md"}, "agent_grpo_rl": {"content": "# Agent Training with RL (GRPO)\n\n## 一句话定义\n用 GRPO（Group Relative Policy Optimization）及其变体对 LLM Agent 进行在线 RL 训练，提升 agent 在动态环境中的决策和工具使用能力。\n\n## 核心思想\n\nGRPO 是 DeepSeek 团队提出的 RL 算法，核心思想是：\n- 对同一个 prompt 采样多条 trajectory（group）\n- 用 group 内的 relative reward 排序来估计 advantage\n- 不需要单独训练 value function（critic-free）\n\n在 Agent 场景中，GRPO 的优势：\n- Agent 轨迹天然是可比较的（同一任务不同策略）\n- Reward 可以来自环境反馈（任务是否完成）\n- 支持多步决策和 tool call 序列\n\n## 关键方法/算法\n\n### GRPO 基础公式\n\n```\n# 对 prompt x, 采样 G 条 trajectory {τ_1, ..., τ_G}\n# 计算 reward {r_1, ..., r_G}\n# Advantage: A_i = (r_i - mean(r)) / std(r)\n# Loss: -A_i * log π(τ_i | x) + β * KL(π || π_ref)\n```\n\n### GiGPO (arXiv:2505.10978) — NeurIPS 2025\nGroup-in-Group Policy Optimization：\n- 外层 group：同一 prompt 的多条 trajectory\n- 内层 group：同一 trajectory 内的不同步骤/turn\n- 双层 advantage 估计，更精细的 credit assignment\n- 专为 LLM Agent 在开放环境中的训练设计\n\n### AT-GRPO (arXiv:2510.11062)\nAgent- and Turn-wise Grouped RL：\n- 针对 multi-agent 协作场景\n- 分别对不同 agent 和不同 turn 计算 advantage\n\n### Training-Free GRPO (arXiv:2510.08191)\n- 不更新模型权重\n- 用 RL 策略在推理时调整 agent 行为\n- 低成本适配新领域\n\n## 与相关概念的关系\n\n- [[agent_skill_internalization]] — GRPO 是实现技能内化的核心训练手段\n- [[rl_grpo]] — GRPO 算法本身的技术细节\n- [[agent_tool_use]] — RL 训练的目标之一是优化工具使用策略\n\n## 代表性论文\n\n1. GiGPO: Group-in-Group PO for LLM Agent (arXiv:2505.10978, NeurIPS 2025)\n2. AT-GRPO: On-Policy RL for Collaborative LLMs (arXiv:2510.11062)\n3. Training-Free GRPO (arXiv:2510.08191)\n4. TreeGRPO (arXiv:2509.21240)\n5. RL for LLM Agent Planning (EMNLP 2025 Industry)\n\n## 开放问题\n\n- Agent 轨迹中的 credit assignment（哪个 step/turn 贡献最大）\n- 长轨迹的 reward 稀疏问题\n- 多步 tool call 的 reward shaping\n- RL 训练的稳定性和效率（LLM 推理开销大）", "category": "concepts", "file": "agent_grpo_rl.md"}, "agent_medical": {"content": "# Medical AI Agent\n\n## 一句话定义\n在医学领域部署的 LLM Agent，能够使用专业工具（EHR查询、文献检索、诊断计算器等）完成临床决策支持任务。\n\n## 核心思想\n\n医学 Agent 与通用 Agent 的关键区别：\n- **高风险** — 错误决策可能危及生命\n- **领域深** — 需要专业医学知识\n- **多模态** — 涉及文本、影像、实验室数据\n- **合规要求** — 隐私（HIPAA）、可解释性、审计追踪\n\n## 关键能力维度\n\n| 能力 | 描述 | 工具示例 |\n|------|------|---------|\n| 文献检索 | 从 PubMed/医学 DB 检索证据 | PubMed API, UpToDate |\n| EHR 交互 | 查询和更新电子健康记录 | FHIR API |\n| 诊断推理 | 基于症状/检查结果推理 | 诊断计算器, 临床路径 |\n| 多模态理解 | 读取影像/病理/ECG | DICOM viewer, 影像 AI |\n| 治疗规划 | 制定个性化治疗方案 | 药物交互检查, 剂量计算 |\n\n## 代表性论文\n\n1. MedAgent-Pro: Evidence-based Multi-modal Diagnosis (arXiv:2503.18968)\n2. MedAgentBench: Virtual EHR Environment (NEJM AI 2026)\n3. AI Agents in Clinical Medicine: Systematic Review (medRxiv 2025)\n4. Agentic-AI Healthcare: Privacy-First Framework (arXiv:2510.02325)\n5. A Foundational Architecture for AI Agents in Healthcare (Cell Reports Medicine 2025)\n\n## 开放问题\n\n- 医学 Agent 的安全验证：如何确保输出符合临床标准？\n- 责任归属：Agent 出错时谁负责？\n- 医生-AI 协作模式：如何设计最佳的人机协作流程？\n- 数据隐私与联邦学习", "category": "concepts", "file": "agent_medical.md"}, "agent_skill_internalization": {"content": "# Skill Internalization\n\n## 一句话定义\n将 prompt-level 的技能描述（如搜索策略、推理规则）通过训练内化到 LLM 的模型参数中，使 agent 无需外部 prompt 即可自主运用这些技能。\n\n## 核心思想\n\n传统方法通过在 system prompt 中注入技能描述来增强 agent 能力，但这有上限：\n- Prompt 长度有限，技能过多会互相干扰\n- 依赖 prompt 的技能泛化性差\n- Token 开销大\n\nSkill Internalization 的目标是让模型\"学会\"这些技能，而非\"读\"这些技能。典型路径：\n1. **SFT Cold Start** — 用高质量轨迹做冷启动\n2. **Curriculum-based RL** — 渐进式撤退 prompt 中的技能描述\n3. **Zero-skill Deployment** — 最终模型在不带技能 prompt 的情况下仍能表现\n\n## 关键方法\n\n### Skill0 (arXiv:2604.02268)\n提出 in-context agentic RL，通过 dynamic curriculum 将技能从 prompt 转移到参数。\n\n### Internalizing Agency from Reflective Experience (arXiv:2603.16843)\n研究 agent 如何将反思性经验内化到权重中，或通过蒸馏经验供检索使用。\n\n### Strategy-Guided RL (arXiv:2603.02045)\n通过策略引导的后训练 RL 来扩展 LLM agent 的能力边界。\n\n## 与相关概念的关系\n\n- [[agent_skill_learning]] — 技能学习的更广义概念，包含但不限于内化\n- [[agent_grpo_rl]] — RL 是实现内化的关键技术路径\n- [[agent_tool_use]] — 技能通常涉及工具使用的优化\n\n## 代表性论文\n\n1. Skill0: In-Context Agentic RL (arXiv:2604.02268)\n2. Internalizing Agency from Reflective Experience (arXiv:2603.16843)\n3. Expanding Agent Boundaries with Strategy-Guided RL (arXiv:2603.02045)\n4. Agent Skills for LLMs (arXiv:2602.12430) — 综述\n5. SoK: Agentic Skills (arXiv:2602.20867) — 系统化综述\n\n## 开放问题\n\n- 如何衡量技能是否真正\"内化\" vs 只是记住了特定模式？\n- 技能内化后的灾难性遗忘问题\n- 多技能之间的干扰和冲突\n- 内化的技能能否组合产生新能力？", "category": "concepts", "file": "agent_skill_internalization.md"}, "agent_skill_learning": {"content": "# Agent Skill Learning\n\n## 一句话定义\nLLM Agent 通过各种方式（SFT、RL、检索、蒸馏）学习新技能的系统化方法，是从 prompt engineering 到 parameter learning 的完整知识体系。\n\n## 核心思想\n\nSkill = Agent 可复用的、可组合的能力单元。\n\n技能学习有多个层次：\n\n```\nLevel 0: No Skill           → 纯 LLM，无任何增强\nLevel 1: Prompt Skill       → 在 system prompt 中注入技能描述\nLevel 2: Retrieved Skill    → 从技能库中动态检索并注入\nLevel 3: SFT Skill          → 通过 SFT 将技能写入参数\nLevel 4: RL-Skill           → 通过 RL 优化技能执行策略\nLevel 5: Self-Evolved Skill → Agent 自动发现和创造新技能\n```\n\n## 技能分类法\n\n### 按功能\n| 类别 | 示例 |\n|------|------|\n| 信息获取 | Web Search, KB Lookup, API Query |\n| 数据处理 | Code Execution, SQL, Data Transform |\n| 推理增强 | Chain-of-Thought, Self-Reflection, Debate |\n| 创意生成 | Writing, Brainstorming, Design |\n| 质量保证 | Fact-checking, Verification, Review |\n\n### 按获取方式\n| 方式 | 描述 | 成本 | 效果 |\n|------|------|------|------|\n| 手动编写 | 人工编写 SKILL.md | 高 | 中 |\n| 轨迹蒸馏 | 从成功轨迹中提取 | 中 | 高 |\n| RL 发现 | 通过 RL 自动发现 | 低 | 高但不确定 |\n| 社区共享 | 从技能库检索 | 低 | 取决于质量 |\n\n## 代表性论文\n\n1. Agent Skills for LLMs (arXiv:2602.12430) — 全面综述\n2. SoK: Agentic Skills (arXiv:2602.20867) — 系统化综述 + SkillsBench\n3. SkillRL: Evolving Agents via Recursive Skill-Augmented RL (arXiv:2602.08234)\n4. SCALAR: Learning and Composing Skills (arXiv:2603.09036)\n5. When Single-Agent with Skills Replace Multi-Agent (arXiv:2601.04748)\n\n## 开放问题\n\n- 技能的标准化表示和互操作性\n- 技能组合的涌现能力\n- 技能的持续学习和遗忘\n- 技能质量评估的统一标准", "category": "concepts", "file": "agent_skill_learning.md"}, "agent_tool_use": {"content": "# Tool Learning and Tool Use\n\n## 一句话定义\n研究 LLM 如何学习发现、选择、组合和创建工具来扩展自身能力边界。\n\n## 核心思想\n\nTool Use 是 Agent 最核心的能力之一。从简单的 API 调用到复杂的工具链编排，LLM 需要学会：\n- **Tool Selection** — 从工具库中选择合适的工具\n- **Tool Composition** — 将多个工具组合成工作流\n- **Tool Creation** — 自动生成新工具来解决问题\n- **Error Recovery** — 工具调用失败时的恢复策略\n\n## 关键分类\n\n### 按工具类型\n| 类型 | 示例 | 难度 |\n|------|------|------|\n| 信息检索 | Web Search, KB Lookup | 低 |\n| 代码执行 | Python, SQL | 中 |\n| API 调用 | REST, GraphQL | 中 |\n| 物理交互 | Robotics, GUI | 高 |\n| 领域专用 | 医学/法律/金融工具 | 高 |\n\n### 按学习方式\n| 方式 | 描述 | 代表工作 |\n|------|------|---------|\n| Prompt-based | 在 prompt 中描述工具 | ReAct, Toolformer |\n| Fine-tuning | 在工具使用数据上 SFT | ToolLLM, Gorilla |\n| RL-based | 通过 RL 优化工具使用策略 | Search-R1, RAGEN |\n| Retrieval-based | 从工具库检索并使用 | AgentSkillOS |\n\n## 代表性论文\n\n1. Agent Skills for LLMs (arXiv:2602.12430) — 综述\n2. SoK: Agentic Skills (arXiv:2602.20867) — 系统化综述\n3. SCALAR: Learning and Composing Skills (arXiv:2603.09036)\n4. SkillRL: Evolving Agents via Recursive Skill-Augmented RL (arXiv:2602.08234)\n5. Search-R1: Training LLM to Search via RL (arXiv:2503.09516)\n\n## 开放问题\n\n- 工具爆炸：当可用工具数量极大时如何高效检索？\n- 工具组合的泛化：能否组合从未见过的工具？\n- 安全性：工具调用可能产生的副作用\n- 跨领域迁移：在一个领域学到的工具使用策略能否迁移？", "category": "concepts", "file": "agent_tool_use.md"}, "rl_dpo_variants": {"content": "# DPO and Its Variants\n\n## 一句话定义\nDPO（Direct Preference Optimization）及其后续变体，通过直接在偏好数据上优化策略来替代 RLHF 中的复杂 RL 训练流程。\n\n## 核心思想\n\nRLHF 的传统流程：训练 reward model → PPO 优化。DPO 发现这个流程可以简化：\n> 偏好数据本身就蕴含了最优 reward 函数的信息，可以直接推导出最优策略。\n\n### DPO 原始公式\n\n```\nL_DPO = -E[log σ(β * (log π(y_w|x)/π_ref(y_w|x) - log π(y_l|x)/π_ref(y_l|x)))]\n```\n\n其中 y_w > y_l 是偏好对，β 控制与 reference 的偏离程度。\n\n## 关键变体\n\n### 按粒度分\n\n| 方法 | 粒度 | 核心改进 | arXiv |\n|------|------|---------|-------|\n| DPO | Response-level | 原始方法 | 2305.18290 |\n| Step-DPO | Step-level | 在推理步骤粒度做偏好优化 | 2406.08982 |\n| Turn-DPO | Turn-level | 在对话轮次粒度做偏好优化 | - |\n| Trajectory-DPO | Trajectory-level | 完整轨迹的偏好优化 | - |\n\n### 按权重/损失函数分\n\n| 方法 | 核心改进 | arXiv |\n|------|---------|-------|\n| HyPO | Hyperspherical projection 避免 mode collapse | 2402.02786 |\n| ProxMO | Proximal 机制防止过拟合 | - |\n| KTO | 只需 binary feedback，不需要 pairwise | 2402.01306 |\n| ORPO | 无需 reference model | 2403.07691 |\n| DPO-Positive | 聚焦正例而非对比 | - |\n\n### 按应用场景分\n\n| 方法 | 场景 | 核心改进 |\n|------|------|---------|\n| Multi-turn DPO | 多轮对话 | 跨轮次的 preference |\n| Agent DPO | Agent 轨迹 | 轨迹级 preference |\n| Asymmetric DPO | 非对称权重 | 不同步骤给不同权重 |\n\n## 关键洞察\n\n1. **粒度很关键** — Response-level DPO 可能忽略中间步骤的错误\n2. **Reference model 重要** — 太弱/太强的 reference 都影响效果\n3. **非对称性** — 在多步轨迹中，不是所有步骤同等重要\n4. **数据质量 > 数据量** — 偏好数据的质量对 DPO 效果影响极大\n\n## 代表性论文\n\n1. DPO: Your Language Model is Secretly a Reward Model (NeurIPS 2023)\n2. Step-DPO: Step-level Preference (arXiv:2406.08982)\n3. KTO: Model-Free Alignment (arXiv:2402.01306)\n4. ORPO: Monolithic Preference Alignment (arXiv:2403.07691)\n5. HyPO: Hyperspherical PO (arXiv:2402.02786)\n\n## 开放问题\n\n- DPO 的 offline 本质是否限制了上限？\n- 如何自动获取高质量偏好数据？\n- 不同变体的组合（如 Step-DPO + 非对称权重）\n- DPO vs online RL 的理论比较", "category": "concepts", "file": "rl_dpo_variants.md"}, "rl_grpo": {"content": "# GRPO and Online RL for LLM\n\n## 一句话定义\nGRPO（Group Relative Policy Optimization）是一种无需 value function 的在线 RL 算法，通过 group 内的相对 reward 排序来估计 advantage，广泛用于 LLM 的 post-training。\n\n## 核心思想\n\n### PPO 的问题\n- 需要单独训练 value function（critic）\n- Critic 训练不稳定，尤其是对长序列\n- 额外参数和计算开销\n\n### GRPO 的解决方案\n> 不训练 critic，而是对同一 prompt 采样一组 trajectory，用组内相对排名作为 advantage。\n\n### 算法流程\n\n```\n1. 给定 prompt x, 采样 G 条 trajectory {y_1, ..., y_G}\n2. 计算 reward {r_1, ..., r_G}\n3. 计算归一化 advantage: ã_i = (r_i - mean(r)) / std(r)\n4. 更新策略: L = -E[ã_i * log π(y_i|x)] + β * KL(π || π_ref)\n```\n\n### 关键优势\n- **无 critic** — 省去 value function 训练\n- **相对评估** — 同一组内对比，减少 reward 噪声影响\n- **简单高效** — 实现比 PPO 简单得多\n- **可扩展** — DeepSeek-R1 用 GRPO 训练 671B 模型成功\n\n## GRPO 变体\n\n| 变体 | 改进点 | 适用场景 |\n|------|--------|---------|\n| GiGPO | Group-in-Group 双层 advantage | Agent 训练 |\n| TreeGRPO | 树结构 advantage | 推理任务 |\n| AT-GRPO | Agent/Turn-wise 分组 | 多 Agent |\n| Training-Free GRPO | 不更新权重 | 低成本适配 |\n\n## 在 DeepSeek-R1 中的应用\n\nDeepSeek-R1 (2025.01) 的核心训练流程：\n1. SFT cold start\n2. GRPO RL 训练（数千步）\n3. 通过 verifiable reward（数学/代码/推理）自动获取 reward\n\n这是 GRPO 在超大规模模型上成功应用的里程碑。\n\n## 代表性论文\n\n1. DeepSeek-R1: Incentivizing Reasoning (2025)\n2. GiGPO: Group-in-Group PO (arXiv:2505.10978, NeurIPS 2025)\n3. TreeGRPO (arXiv:2509.21240)\n4. AT-GRPO (arXiv:2510.11062)\n5. Training-Free GRPO (arXiv:2510.08191)\n\n## 开放问题\n\n- Group size G 的选择对性能的影响\n- Reward normalization 的不同策略\n- 与 PPO 的理论比较（variance vs bias）\n- 长序列（如 agent 轨迹）中 GRPO 的 credit assignment", "category": "concepts", "file": "rl_grpo.md"}, "rl_trajectory_preference": {"content": "# Trajectory-level Preference Optimization\n\n## 一句话定义\n将偏好优化从单个 response 粒度提升到完整轨迹（trajectory）粒度，特别适用于多步 agent 决策场景。\n\n## 核心思想\n\n### 为什么需要轨迹级？\n\n传统 DPO 在 response-level 做偏好对比，但 Agent 场景中：\n- 一个 response 实际上是多步 tool call 的序列\n- 两段轨迹可能在大部分步骤上一致，只在关键一步不同\n- Response-level 的 DPO 无法区分\"哪一步是关键的\"\n\n### 轨迹级方法的核心挑战\n\n1. **Credit Assignment** — 哪个 step/turn 贡献了最终的成功/失败？\n2. **Reward Sparsity** — 通常只有最终结果有 reward\n3. **序列长度** — 轨迹可能包含 10-30 个 step，远长于单轮 response\n4. **Variable Length** — 不同轨迹长度不同\n\n## 关键方法\n\n### Step-DPO (arXiv:2406.08982)\n- 在推理步骤粒度做 DPO\n- 检测首个分歧步骤 t*\n- 只在分歧步骤附近计算 loss\n- 应用于数学推理，显著优于 response-level DPO\n\n### Turn-DPO\n- 在对话轮次粒度做 DPO\n- 适用于多轮对话场景\n\n### 轨迹级 DPO 的通用框架\n\n```\n1. 收集 trajectory pair: τ_w (better) vs τ_l (worse)\n2. 找到分歧点: t* = first step where τ_w ≠ τ_l\n3. 计算每个 step 的 log probability: logp(τ[t] | x)\n4. 加权聚合: L = -E[Σ w_t * (logp(τ_w[t]) - logp(τ_l[t]))]\n   其中 w_t 是 step-level 权重\n```\n\n### 权重策略\n\n| 策略 | 描述 | 假设 |\n|------|------|------|\n| Uniform | 所有权重相同 | 所有步骤同等重要 |\n| Decay | 离分歧点越远权重越小 | 分歧点最关键 |\n| Gaussian | 以分歧点为中心的高斯衰减 | 分歧点及其邻近步骤重要 |\n| Asymmetric | 左右不同衰减速率 | 分歧前后的因果效应不同 |\n| Learned | 通过另一个模型学习权重 | 不做先验假设 |\n\n## 与相关概念的关系\n\n- [[rl_dpo_variants]] — 轨迹级方法属于 DPO 变体的一种分类维度\n- [[agent_grpo_rl]] — GRPO 也可用于轨迹级训练，但用的是 online RL\n\n## 代表性论文\n\n1. Step-DPO (arXiv:2406.08982)\n2. Turn-DPO for Multi-turn Alignment\n3. Trajectory-level Preference for Agent\n4. Search-R1: RL for Search Agent (arXiv:2503.09516)\n5. RAGEN: Training Agent by Reinforcing Reasoning (2025)\n\n## 开放问题\n\n- 最优权重策略是什么？是否与任务相关？\n- 自动分歧点检测的可靠性\n- 轨迹级 vs step 级 vs response 级的理论比较\n- 如何高效收集轨迹级偏好数据？", "category": "concepts", "file": "rl_trajectory_preference.md"}, "rl_verifiable_reward": {"content": "# Verifiable Reward for LLM Alignment\n\n## 一句话定义\n使用可程序化验证的奖励信号（如代码执行结果、数学答案正确性）来替代人类标注或 LLM Judge，实现自动化、高可靠的 RL 训练。\n\n## 核心思想\n\n传统 RLHF 的瓶颈：人工标注偏好数据 → 成本高、速度慢、不一致。\n\nVerifiable Reward 的洞察：\n> 很多任务的正确性可以用程序自动判定，无需人类参与。\n\n### 可验证的任务类型\n\n| 任务类型 | 验证方式 | 可靠性 |\n|----------|---------|--------|\n| 数学推理 | 答案 exact match | 高 |\n| 代码生成 | 单元测试 pass rate | 高 |\n| 信息检索 | ground truth 对比 | 高 |\n| 搜索 Agent | 最终答案正确性 | 中-高 |\n| 对话/创意 | 人类/LLM Judge | 低 |\n\n### 核心优势\n- **零标注成本** — 不需要人类标注\n- **高一致性** — 同一答案总是得到相同 reward\n- **可扩展** — 可以轻松扩展到百万级样本\n- **抗欺骗** — 代码执行结果不容易被模型 hack\n\n## 关键应用\n\n### DeepSeek-R1\n用 verifiable reward 训练推理模型：\n- 数学题：答案精确匹配\n- 代码：执行验证\n- 推理题：逻辑验证\n\n### Search-R1 (arXiv:2503.09516)\n训练 LLM 通过 RL 学习搜索：\n- Reward = 答案是否正确（可自动验证）\n- Agent 自由探索搜索策略\n- 不需要人类标注搜索轨迹\n\n### Agent RL 的 Reward 设计\n```\nR = R_correctness + α * R_efficiency + β * R_format\n\nR_correctness: 答案正确性（可验证）\nR_efficiency: -0.1 * max(0, tool_calls - optimal) / optimal\nR_format: 输出格式合规性（规则检查）\n```\n\n## 与相关概念的关系\n\n- [[rl_grpo]] — GRPO 需要可靠的 reward signal，verifiable reward 是最佳来源\n- [[rl_dpo_variants]] — DPO 需要偏好数据，verifiable reward 可自动生成偏好对\n\n## 代表性论文\n\n1. DeepSeek-R1: Incentivizing Reasoning (2025)\n2. Search-R1: Training LLM to Search (arXiv:2503.09516)\n3. RAGEN: Training Agent by Reinforcing Reasoning (2025)\n4. Reinforcement Learning for Self-Improving Agent (arXiv:2512.17102)\n\n## 开放问题\n\n- 如何为开放式任务（如创意写作、对话）设计 verifiable reward？\n- Reward hacking：模型可能找到非预期的策略获得高 reward\n- 多目标 reward 的权重平衡\n- 部分正确（partially correct）的 reward 设计", "category": "concepts", "file": "rl_verifiable_reward.md"}, "agent_gigpo_2025": {"content": "# GiGPO: Group-in-Group Policy Optimization\n\n## 一句话总结\n提出双层分组策略优化（Group-in-Group），专为 LLM Agent 在开放环境中的 RL 训练设计，解决了轨迹级 credit assignment 问题。\n\n## 核心贡献\n\n1. **Group-in-Group advantage** — 外层 group 对比不同轨迹，内层 group 对比不同步骤\n2. **更精细的 credit assignment** — 不仅知道哪条轨迹好，还知道哪一步好\n3. **NeurIPS 2025 接收** — 说明学术认可度高\n\n## 方法详解\n\n### 双层 Group\n\n```\nOuter Group (Trajectory-level):\n  同一 prompt x → 采样 G 条轨迹 {τ_1, ..., τ_G}\n  → 计算 trajectory-level advantage\n\nInner Group (Step-level):\n  同一轨迹 τ_i → 包含 T 个 step {s_1, ..., s_T}\n  → 计算 step-level advantage\n\nCombined Advantage:\n  A_{i,t} = f(outer_adv_i, inner_adv_{i,t})\n```\n\n### 为什么需要双层？\n\n- **外层**告诉我们哪条轨迹整体更好\n- **内层**告诉我们同一条轨迹中哪个步骤更关键\n- 两者结合才能实现精确的 credit assignment\n\n## 与其他工作的关系\n\n- [[rl_grpo]] — GiGPO 是 GRPO 的 Agent 场景扩展\n- [[agent_grpo_rl]] — GiGPO 是 Agent RL 训练的代表性方法\n- Skill0 (arXiv:2604.02268) — Skill0 引用了 GiGPO 的分组策略\n\n## 局限性\n\n- 内层 group 的 computation overhead\n- 对于非常长的轨迹（30+ steps），内层 group 的方差可能很大", "category": "papers", "file": "agent_gigpo_2025.md"}, "agent_search_r1_2025": {"content": "# Search-R1\n\n## 一句话总结\n用 RL 训练 LLM 学会自主调用搜索引擎进行多步推理，通过 verifiable reward 实现完全自动化的训练。\n\n## 核心贡献\n\n1. **RL 训练搜索 agent** — 不是 SFT，而是让 agent 通过 RL 自主探索搜索策略\n2. **End-to-end 可验证** — 最终答案正确性作为唯一 reward，无需标注搜索过程\n3. **涌现搜索策略** — Agent 自发学会 query reformulation、multi-hop search 等策略\n\n## 方法详解\n\n### 训练框架\n\n```\nPrompt: 问题 q\nAgent: LLM + Search Tool\nTrajectory: q → search_1 → observe_1 → think → search_2 → ... → answer\n\nReward: R = 1 if answer correct, 0 otherwise\nAlgorithm: GRPO (group relative policy optimization)\n```\n\n### 关键设计\n\n1. **Tool-augmented generation** — LLM 可以生成 `<search>query</search>` 调用搜索\n2. **Observation injection** — 搜索结果作为 observation 注入到上下文\n3. **自主停止** — Agent 自主决定何时停止搜索\n\n### 涌现行为\n\n- **Query Reformulation** — 自动改写查询\n- **Multi-hop Search** — 先搜 A，再根据 A 的结果搜 B\n- **Result Verification** — 搜索后交叉验证多个来源\n- **Selective Search** — 对简单问题直接回答，只对难题搜索\n\n## 与其他工作的关系\n\n- [[rl_verifiable_reward]] — 使用可验证的答案正确性作为 reward\n- [[agent_grpo_rl]] — GRPO 在搜索 agent 的应用\n- [[agent_skill_internalization]] — 搜索策略通过 RL 内化\n\n## 局限性\n\n- 搜索环境的质量直接影响训练效果\n- 长轨迹的 reward sparsity（只有最终 reward）\n- 搜索 API 的延迟影响训练效率", "category": "papers", "file": "agent_search_r1_2025.md"}, "agent_skill0_2026": {"content": "# Skill0: In-Context Agentic RL for Skill Internalization\n\n## 一句话总结\n通过渐进式 curriculum RL 训练，将 prompt 中的技能描述逐步撤退（withdraw），使 LLM Agent 将技能内化到模型参数中。\n\n## 核心贡献\n\n1. **提出 Skill Internalization 范式** — 技能从 prompt → 参数的渐进转移\n2. **Dynamic Curriculum 策略** — 分阶段撤退 prompt 中的技能\n3. **验证内化效果** — 在多个 benchmark 上展示 zero-skill 部署仍能保持性能\n\n## 方法详解\n\n### 三阶段 Curriculum\n\n```\nStage 1: Full Skills in Prompt\n├── 所有 6 个 skill 全部注入 system prompt\n├── GRPO RL 训练 60 steps\n└── Agent 学会使用 prompt 中的技能\n\nStage 2: Top-K Skills\n├── 根据 helpfulness 保留最有效的 3 个 skills\n├── GRPO RL 训练 60 steps\n└── Agent 学会依赖更少的技能\n\nStage 3: Zero Skills\n├── 完全撤退所有 skill prompt\n├── GRPO RL 训练 60 steps\n└── Agent 纯靠参数中的内化知识执行\n```\n\n### Reward 设计\n\n```\nR = R_answer + 0.5 * R_efficiency\nR_answer: 1.0 if correct, 0.0 otherwise\nR_efficiency: -0.1 * max(0, tool_calls - optimal) / optimal\n```\n\n### 关键洞察\n\n- **技能有帮助 → 但不是越多越好** — 过多 skill 描述会互相干扰\n- **渐进撤退 > 立即撤退** — 给模型适应时间\n- **RL 是内化的关键** — SFT 只能记住，RL 才能内化\n\n## 与其他工作的关系\n\n- [[agent_skill_internalization]] — 本论文是该概念的核心实例化\n- [[agent_grpo_rl]] — 使用 GRPO 作为 RL 算法\n- [[agent_tool_use]] — 技能涉及工具使用策略的优化\n- GiGPO (arXiv:2505.10978) — 本论文引用了 GiGPO 的分组策略\n\n## 局限性\n\n- 仅在 search agent 场景验证，泛化性未知\n- Curriculum 的 stage 划分需要人工设计\n- 内化后的技能是否可迁移到新任务？", "category": "papers", "file": "agent_skill0_2026.md"}, "rl_deepseek_r1_2025": {"content": "# DeepSeek-R1\n\n## 一句话总结\n通过纯 RL 训练（GRPO）+ verifiable reward，在无人类标注的情况下让 671B 模型涌现出 chain-of-thought 推理能力，是 GRPO 在超大规模上的里程碑验证。\n\n## 核心贡献\n\n1. **证明了 pure RL 可以激发推理** — 不需要 SFT 冷启动也能涌现 CoT\n2. **GRPO 的超大规模验证** — 671B 模型，数千步 GRPO 训练\n3. **Verifiable Reward 的威力** — 数学/代码/推理的可验证奖励足够驱动学习\n4. **蒸馏有效** — 大模型 RL 学到的推理能力可以蒸馏到小模型\n\n## 方法详解\n\n### 训练流程\n\n```\nDeepSeek-R1-Zero (pure RL):\n  Base Model → GRPO RL (verifiable reward) → Reasoning Model\n  ✗ 无 SFT 冷启动\n  ✓ 自然涌现 aha moment、self-verification\n\nDeepSeek-R1 (cold-start):\n  Base Model → SFT (少量高质量推理数据) → GRPO RL → Reasoning Model\n  ✓ 更稳定，输出格式更可控\n  ✓ 最终效果更好\n```\n\n### GRPO 配置\n\n```\nGroup size G: 64\nKL coefficient β: 0.001\nReward: verifiable (math answer match / code test pass)\nSteps: ~8000\n```\n\n### 关键发现\n\n1. **Aha Moment** — 模型在 RL 过程中自发学会\"wait, let me reconsider\"\n2. **Self-Verification** — 模型自发学会检验自己的推理\n3. **推理长度增长** — 随着训练进行，模型的推理 token 数自然增长\n4. **涌现性** — 这些行为不是通过 SFT 教的，而是 RL 过程中涌现的\n\n## 与其他工作的关系\n\n- [[rl_grpo]] — DeepSeek-R1 是 GRPO 的标志性应用\n- [[rl_verifiable_reward]] — 完美展示了 verifiable reward 的威力\n- [[rl_dpo_variants]] — DPO 是 offline 方法，GRPO 是 online 方法，两者是不同范式\n\n## 局限性\n\n- 需要超大规模计算资源\n- Verifiable reward 只适用于有明确答案的任务\n- RL 训练的不稳定性和可复现性问题\n- 语言混杂（中英文混合输出）", "category": "papers", "file": "rl_deepseek_r1_2025.md"}};
+
+// ===== Navigation =====
+let currentPage = 'index';
+
+function navigate(pageId) {
+  pageId = pageId.toLowerCase();
+  if (!PAGES[pageId]) {
+    // try fuzzy: replace spaces with underscores
+    pageId = pageId.replace(/\s+/g, '_');
+  }
+  if (!PAGES[pageId]) {
+    console.warn('Page not found:', pageId);
+    return;
+  }
+  currentPage = pageId;
+  renderPage(pageId);
+  updateSidebar(pageId);
+  updateBreadcrumb(pageId);
+  window.scrollTo(0, 0);
+  // close sidebar on mobile
+  if (window.innerWidth <= 768) toggleSidebar(false);
+}
+
+function renderPage(pageId) {
+  const page = PAGES[pageId];
+  if (!page) return;
+
+  let html;
+  if (pageId === 'index') {
+    html = renderIndexPage();
+  } else {
+    html = marked.parse(page.content);
+  }
+
+  // Convert wikilinks [[xxx]] to clickable links
+  html = html.replace(/\[\[([^\]]+)\]\]/g, (match, link) => {
+    const target = link.trim().toLowerCase().replace(/\s+/g, '_');
+    const exists = !!PAGES[target];
+    const cls = exists ? 'wikilink' : 'wikilink broken';
+    return '<a class="' + cls + '" onclick="navigate(\'' + target + '\')">' + link + '</a>';
+  });
+
+  document.getElementById('content').innerHTML = html;
+  document.title = pageId === 'index' ? 'LLM Wiki' : pageId.replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase()) + ' — LLM Wiki';
+}
+
+function renderIndexPage() {
+  const page = PAGES['index'];
+  let html = marked.parse(page.content);
+  // replace wikilinks in index
+  html = html.replace(/\[\[([^\]]+)\]\]/g, (match, link) => {
+    const target = link.trim().toLowerCase().replace(/\s+/g, '_');
+    const exists = !!PAGES[target];
+    const cls = exists ? 'wikilink' : 'wikilink broken';
+    return '<a class="' + cls + '" onclick="navigate(\'' + target + '\')">' + link + '</a>';
+  });
+  return html;
+}
+
+function updateSidebar(pageId) {
+  document.querySelectorAll('.sidebar-link').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === pageId);
+  });
+}
+
+function updateBreadcrumb(pageId) {
+  const bc = document.getElementById('breadcrumb');
+  const page = PAGES[pageId];
+  let catLabel = '';
+  if (page.category === 'concepts') catLabel = 'Concepts';
+  else if (page.category === 'papers') catLabel = 'Papers';
+  else if (pageId === 'index') catLabel = '';
+  else catLabel = 'Wiki';
+
+  const title = pageId.replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase());
+
+  if (pageId === 'index') {
+    bc.innerHTML = '<span class="current">Index</span>';
+  } else {
+    bc.innerHTML = '<a class="back-link" onclick="navigate(\'index\')">Index</a>'
+      + '<span class="sep">/</span>'
+      + (catLabel ? catLabel + '<span class="sep">/</span>' : '')
+      + '<span class="current">' + title + '</span>';
+  }
+}
+
+function toggleSidebar(forceState) {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('overlay');
+  const shouldOpen = typeof forceState === 'boolean' ? forceState : !sb.classList.contains('open');
+  sb.classList.toggle('open', shouldOpen);
+  ov.classList.toggle('show', shouldOpen);
+}
+
+function filterSidebar(query) {
+  query = query.toLowerCase().trim();
+  document.querySelectorAll('.sidebar-link').forEach(el => {
+    if (!query) { el.style.display = ''; return; }
+    const text = el.textContent.toLowerCase();
+    const page = el.dataset.page || '';
+    el.style.display = (text.includes(query) || page.includes(query)) ? '' : 'none';
+  });
+}
+
+// ===== Keyboard =====
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// ===== Init =====
+navigate('index');
+</script>
+</body>
+</html>
