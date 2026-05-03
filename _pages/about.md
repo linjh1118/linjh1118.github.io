@@ -26,6 +26,8 @@ Looking ahead, I am committed to further exploring the intersection of theoretic
 
 # 🔥 Publications
 - *2026.02*: &nbsp;🎉🎉 Paper *"MedXIAOHE: A Comprehensive Recipe for Building Medical MLLMs"* release! SOTA across diverse medical benchmarks, surpassing leading closed-source systems.
+- *2026.05*: &nbsp;🎉🎉 Papers *"GTPO and GRPO-S: Token and Sequence-Level Reward Shaping with Policy Entropy"* & *"Group-wise Data Ordering: Enhancing Instruction Tuning of Large Language Models via Embedding Proximity"* Accepted by ⭐️*ICML 2026*⭐️.
+- *2026.04*: &nbsp;🎉🎉 Paper *"DeepMed: Building a Medical DeepResearch Agent via Multi-hop Med-Search Data and Turn-Controlled Agentic Training & Inference"* Accepted by ⭐️*ACL 2026 Findings*⭐️.
 - *2026.01*: &nbsp;🎉🎉 Paper *"Cycle‑Align: Leveraging Circular Alignment to Optimize LLM Understanding of Collaborative Signals"* Accepted by ⭐️DSAFAA 2026⭐️.
 - *2025.11*: &nbsp;🎉🎉 Paper *"VCGD: Visual Clue Guided Decoding with Caption Model for Mitigating Hallucination in Multimodal Large Language Models"* Accepted by ⭐️AAAI 2026⭐️.
 - *2025.10*: &nbsp;🏆🏆 **[NeurIPS 2025 Competition] CURE-Bench: 1st Place** — Won 1st place in the [CURE-Bench competition](https://www.kaggle.com/competitions/cure-bench/overview) at NeurIPS 2025 on complex clinical reasoning. Poster presented at NeurIPS 2025. [[Poster]](https://curebench.ai/)
