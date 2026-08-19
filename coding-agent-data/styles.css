@@ -91,6 +91,24 @@ a {
   transform: translateY(0);
 }
 
+.cursor-comet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: normal;
+  contain: strict;
+  will-change: opacity;
+  transition: opacity 180ms ease;
+}
+
+.cursor-comet.visible {
+  opacity: 0.92;
+}
+
 .shell {
   width: var(--shell);
   margin-inline: auto;
@@ -1543,6 +1561,12 @@ a {
   }
 }
 
+@media (hover: none), (pointer: coarse) {
+  .cursor-comet {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1559,5 +1583,9 @@ a {
   .js .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .cursor-comet {
+    display: none;
   }
 }

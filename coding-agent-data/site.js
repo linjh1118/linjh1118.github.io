@@ -6,6 +6,280 @@
   var menu = document.getElementById("site-menu");
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
 
+  function setupCursorComet() {
+    var canvas = document.querySelector(".cursor-comet");
+    if (!canvas || !canvas.getContext || !window.matchMedia) return;
+
+    var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var context = canvas.getContext("2d");
+    if (!context) return;
+
+    var MAX_TRAIL = 28;
+    var MAX_SPARKS = 64;
+    var ACTIVE_SELECTOR = "a, button, [role='button'], article, figure, .audit-callout, .benchmark-ladder, .factory-flow, .feature-figure, .hero-card";
+    var currentX = 0;
+    var currentY = 0;
+    var targetX = 0;
+    var targetY = 0;
+    var viewportWidth = 0;
+    var viewportHeight = 0;
+    var frame = 0;
+    var burstTick = 0;
+    var started = false;
+    var inside = false;
+    var active = false;
+    var enabled = false;
+    var trail = [];
+    var sparks = [];
+
+    function isEligible() {
+      return finePointer.matches && !reducedMotion.matches;
+    }
+
+    function hideComet(clearParticles) {
+      inside = false;
+      active = false;
+      canvas.classList.remove("visible");
+      if (clearParticles) {
+        trail = [];
+        sparks = [];
+        if (frame) {
+          window.cancelAnimationFrame(frame);
+          frame = 0;
+        }
+        context.clearRect(0, 0, viewportWidth, viewportHeight);
+      }
+    }
+
+    function resizeCanvas() {
+      var ratio = Math.min(window.devicePixelRatio || 1, 2);
+      viewportWidth = window.innerWidth;
+      viewportHeight = window.innerHeight;
+      canvas.width = Math.round(viewportWidth * ratio);
+      canvas.height = Math.round(viewportHeight * ratio);
+      canvas.style.width = viewportWidth + "px";
+      canvas.style.height = viewportHeight + "px";
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      trail = [];
+      sparks = [];
+      if (inside && started) requestDraw();
+    }
+
+    function glow(x, y, radius, core, halo) {
+      var gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+      gradient.addColorStop(0, core);
+      gradient.addColorStop(0.26, halo);
+      gradient.addColorStop(1, "rgba(8, 114, 103, 0)");
+      context.fillStyle = gradient;
+      context.beginPath();
+      context.arc(x, y, radius, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    function requestDraw() {
+      if (enabled && !frame) frame = window.requestAnimationFrame(drawComet);
+    }
+
+    function drawComet() {
+      frame = 0;
+      if (!enabled) return;
+
+      var dx = targetX - currentX;
+      var dy = targetY - currentY;
+      var speed = Math.hypot(dx, dy);
+      var moving = speed > 0.16;
+      currentX += dx * 0.23;
+      currentY += dy * 0.23;
+
+      if (inside && moving) {
+        trail.unshift({
+          x: currentX,
+          y: currentY,
+          life: 1,
+          size: 1.8 + Math.random() * 1.8,
+          drift: (Math.random() - 0.5) * 4
+        });
+        if (trail.length > MAX_TRAIL) trail.length = MAX_TRAIL;
+
+        burstTick += 1;
+        if (speed > 6 && burstTick % (active ? 2 : 4) === 0) {
+          var direction = Math.atan2(dy, dx) + Math.PI;
+          var amount = Math.min(active ? 5 : 3, 2 + Math.floor(speed / 24));
+          for (var i = 0; i < amount; i += 1) {
+            var angle = direction + (Math.random() - 0.5) * 2;
+            var force = 1.1 + Math.random() * Math.min(4.8, 1.6 + speed * 0.04);
+            sparks.push({
+              x: currentX - dx * 0.02 + (Math.random() - 0.5) * 5,
+              y: currentY - dy * 0.02 + (Math.random() - 0.5) * 5,
+              vx: Math.cos(angle) * force,
+              vy: Math.sin(angle) * force,
+              life: 0.68 + Math.random() * 0.3,
+              size: 0.9 + Math.random() * 1.6,
+              warm: Math.random() > 0.72
+            });
+          }
+          if (sparks.length > MAX_SPARKS) {
+            sparks.splice(0, sparks.length - MAX_SPARKS);
+          }
+        }
+      }
+
+      trail.forEach(function (point) {
+        point.life *= moving ? 0.94 : 0.87;
+        point.y += point.drift * 0.016;
+        point.size *= 0.992;
+      });
+      trail = trail.filter(function (point, index) {
+        return point.life > 0.04 && index < MAX_TRAIL;
+      });
+
+      sparks.forEach(function (spark) {
+        spark.x += spark.vx;
+        spark.y += spark.vy;
+        spark.vx *= 0.93;
+        spark.vy *= 0.93;
+        spark.life *= 0.86;
+        spark.size *= 0.982;
+      });
+      sparks = sparks.filter(function (spark) { return spark.life > 0.04; });
+
+      context.clearRect(0, 0, viewportWidth, viewportHeight);
+      context.save();
+
+      if (trail.length > 1) {
+        var tail = trail[trail.length - 1];
+        var shadow = context.createLinearGradient(currentX, currentY, tail.x + 0.01, tail.y + 0.01);
+        shadow.addColorStop(0, "rgba(16, 34, 63, 0.44)");
+        shadow.addColorStop(0.5, "rgba(16, 34, 63, 0.15)");
+        shadow.addColorStop(1, "rgba(16, 34, 63, 0)");
+        context.strokeStyle = shadow;
+        context.lineWidth = active ? 7 : 5;
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        context.beginPath();
+        context.moveTo(currentX, currentY);
+        trail.forEach(function (point, index) {
+          if (index % 2 === 0) context.lineTo(point.x, point.y);
+        });
+        context.stroke();
+
+        var streak = context.createLinearGradient(currentX, currentY, tail.x + 0.01, tail.y + 0.01);
+        streak.addColorStop(0, "rgba(31, 190, 168, 0.92)");
+        streak.addColorStop(0.36, "rgba(35, 103, 201, 0.55)");
+        streak.addColorStop(0.72, "rgba(173, 86, 18, 0.24)");
+        streak.addColorStop(1, "rgba(8, 114, 103, 0)");
+        context.strokeStyle = streak;
+        context.lineWidth = active ? 3.8 : 2.7;
+        context.beginPath();
+        context.moveTo(currentX, currentY);
+        trail.forEach(function (point, index) {
+          if (index % 2 === 0) context.lineTo(point.x, point.y);
+        });
+        context.stroke();
+      }
+
+      context.globalCompositeOperation = "lighter";
+      trail.forEach(function (point, index) {
+        context.globalAlpha = point.life * (1 - index / Math.max(trail.length, 1)) * 0.62;
+        glow(point.x, point.y, point.size * 3.2, "rgba(154, 244, 225, 0.82)", "rgba(8, 114, 103, 0.25)");
+      });
+
+      sparks.forEach(function (spark) {
+        context.globalAlpha = spark.life * 0.86;
+        var sparkCore = spark.warm ? "rgba(255, 239, 211, 0.98)" : "rgba(225, 255, 249, 0.98)";
+        var sparkHalo = spark.warm ? "rgba(221, 112, 28, 0.48)" : "rgba(35, 103, 201, 0.42)";
+        glow(spark.x, spark.y, spark.size * 3.7, sparkCore, sparkHalo);
+      });
+
+      context.globalAlpha = inside ? 1 : 0.35;
+      glow(currentX, currentY, active ? 25 : 19, "rgba(255, 255, 255, 0.98)", active ? "rgba(221, 112, 28, 0.58)" : "rgba(8, 114, 103, 0.52)");
+      glow(currentX, currentY, active ? 10 : 7.5, "rgba(255, 255, 255, 1)", "rgba(35, 103, 201, 0.9)");
+      context.restore();
+
+      if (moving || trail.length > 1 || sparks.length) requestDraw();
+    }
+
+    function handlePointerMove(event) {
+      if (!enabled || event.pointerType === "touch") return;
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!started) {
+        currentX = targetX;
+        currentY = targetY;
+        started = true;
+      }
+      inside = true;
+      canvas.classList.add("visible");
+      requestDraw();
+    }
+
+    function handlePointerOver(event) {
+      if (!enabled || !(event.target instanceof Element)) return;
+      active = Boolean(event.target.closest(ACTIVE_SELECTOR));
+      requestDraw();
+    }
+
+    function handleLeave() {
+      hideComet(false);
+      requestDraw();
+    }
+
+    function handlePageExit() {
+      hideComet(true);
+    }
+
+    function handleVisibility() {
+      if (document.hidden) hideComet(true);
+    }
+
+    function enableComet() {
+      if (enabled || !isEligible()) return;
+      enabled = true;
+      resizeCanvas();
+      document.addEventListener("pointermove", handlePointerMove, { passive: true });
+      document.addEventListener("pointerover", handlePointerOver, { passive: true });
+      document.documentElement.addEventListener("mouseleave", handleLeave);
+      window.addEventListener("blur", handlePageExit);
+      window.addEventListener("pagehide", handlePageExit);
+      window.addEventListener("resize", resizeCanvas, { passive: true });
+      document.addEventListener("visibilitychange", handleVisibility);
+    }
+
+    function disableComet() {
+      if (!enabled) return;
+      hideComet(true);
+      enabled = false;
+      started = false;
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerover", handlePointerOver);
+      document.documentElement.removeEventListener("mouseleave", handleLeave);
+      window.removeEventListener("blur", handlePageExit);
+      window.removeEventListener("pagehide", handlePageExit);
+      window.removeEventListener("resize", resizeCanvas);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    }
+
+    function updateCometPolicy() {
+      if (isEligible()) {
+        enableComet();
+      } else {
+        disableComet();
+      }
+    }
+
+    if (finePointer.addEventListener) {
+      finePointer.addEventListener("change", updateCometPolicy);
+      reducedMotion.addEventListener("change", updateCometPolicy);
+    } else {
+      finePointer.addListener(updateCometPolicy);
+      reducedMotion.addListener(updateCometPolicy);
+    }
+    updateCometPolicy();
+  }
+
+  setupCursorComet();
+
   function closeMenu() {
     if (!menuButton || !menu) return;
     menuButton.setAttribute("aria-expanded", "false");
