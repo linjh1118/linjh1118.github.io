@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10223f">
+  <meta name="description" content="A data-centric survey of benchmarks, executable task synthesis, rollout-graph curation, and post-training for coding agents.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://linjh1118.github.io/coding-agent-data/">
+  <meta property="og:title" content="From Issues to Learning Signals">
+  <meta property="og:description" content="A Survey of Data for Coding Agents">
+  <meta property="og:image" content="https://linjh1118.github.io/coding-agent-data/assets/og.png">
+  <meta property="og:image:width" content="1731">
+  <meta property="og:image:height" content="909">
+  <meta property="og:image:alt" content="From Issues to Learning Signals: A Survey of Data for Coding Agents">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="From Issues to Learning Signals">
+  <meta name="twitter:description" content="A Survey of Data for Coding Agents">
+  <meta name="twitter:image" content="https://linjh1118.github.io/coding-agent-data/assets/og.png">
+  <meta name="twitter:image:alt" content="From Issues to Learning Signals: A Survey of Data for Coding Agents">
+  <title>From Issues to Learning Signals · Coding Agent Data Survey</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-header>
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Coding Agent Data home">
+        <span class="brand-mark" aria-hidden="true">d</span>
+        <span>Coding Agent Data</span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-menu">
+        <span></span><span></span><span></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <div class="nav-links" id="site-menu">
+        <a href="#landscape">Landscape</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#task-factory">Task Factory</a>
+        <a href="#trajectories">Trajectories</a>
+        <a href="#post-training">Post-training</a>
+        <a href="#frontiers">Frontiers</a>
+        <a href="#papers">Papers</a>
+        <a href="#cite">Cite</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
+      <div class="shell hero-layout">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> Data-centric coding agents</p>
+          <h1>From Issues to<br><span>Learning Signals</span></h1>
+          <p class="hero-subtitle">A Survey of Data for Coding Agents</p>
+          <p class="hero-thesis">Coding-agent data is <strong>executable experience</strong>, not an isolated prompt–response pair.</p>
+          <p class="author-line">Jinghao Lin <span aria-hidden="true">·</span> Independent Research Draft</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="assets/coding_agent_data_survey.pdf">Read the paper <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#landscape">Explore the taxonomy</a>
+            <a class="button button-ghost" href="#papers">Browse papers</a>
+          </div>
+          <div class="metric-strip" aria-label="Survey scope">
+            <div><strong>6</strong><span>work levels</span></div>
+            <div><strong>7</strong><span>synthesis paradigms</span></div>
+            <div><strong>4</strong><span>pruning levels</span></div>
+            <div><strong>5</strong><span>learning routes</span></div>
+          </div>
+        </div>
+        <figure class="hero-card reveal">
+          <button class="figure-open" type="button" data-lightbox="assets/hero.png" aria-label="Open cover illustration">
+            <img src="assets/hero.png" width="1440" height="805" fetchpriority="high" decoding="async" alt="An illustrated coding-agent data factory linking task sources, executable environments, rollout graphs, learning signals, and held-out evaluation.">
+          </button>
+          <figcaption>
+            <span class="caption-label">Survey overview</span>
+            One executable-data engine, from fresh tasks to leakage-resistant evaluation.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-ivory" id="landscape">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>01</span> Landscape</p>
+          <h2>The durable unit is an executable experience bundle.</h2>
+          <p>A useful datum binds the repository, visible task, environment, action interface, verifier, rollout graph, learning labels, and lineage into one versioned object.</p>
+        </div>
+
+        <figure class="feature-figure portrait-figure reveal">
+          <button class="figure-open" type="button" data-lightbox="assets/taxonomy.png" aria-label="Open the taxonomy mind map">
+            <img src="assets/taxonomy.png" width="1116" height="1508" loading="lazy" decoding="async" alt="Mind map with four branches: benchmarks, task-environment-verifier construction, trajectories, and post-training, centered on the executable experience bundle.">
+          </button>
+          <figcaption>
+            <div>
+              <span class="caption-label">Landscape map</span>
+              Four data questions, connected by quality, evidence, governance, and lineage.
+            </div>
+            <div class="figure-actions">
+              <button type="button" data-lightbox="assets/taxonomy.png">Zoom</button>
+              <a href="assets/taxonomy.png" download>Download PNG</a>
+              <a href="assets/coding_agent_data_survey.pdf#page=6">Paper section</a>
+            </div>
+          </figcaption>
+        </figure>
+
+        <div class="lens-grid">
+          <article class="lens-card blue reveal">
+            <span>01</span>
+            <h3>What is measured?</h3>
+            <p>Benchmarks define both a capability claim and a held-out evidence boundary.</p>
+          </article>
+          <article class="lens-card teal reveal">
+            <span>02</span>
+            <h3>What makes a task executable?</h3>
+            <p>Prompt, environment, verifier, and rubric must be constructed and validated together.</p>
+          </article>
+          <article class="lens-card orange reveal">
+            <span>03</span>
+            <h3>Which decisions are reusable?</h3>
+            <p>Rollout graphs preserve shared states, counterfactual branches, recovery, and cost.</p>
+          </article>
+          <article class="lens-card green reveal">
+            <span>04</span>
+            <h3>Which signal trains what?</h3>
+            <p>Demonstrations, matched preferences, process evidence, and arenas serve different objectives.</p>
+          </article>
+        </div>
+
+        <div class="category-errors reveal" aria-label="Four category errors">
+          <p><span>dataset</span> ≠ prompt collection</p>
+          <p><span>test pass</span> ≠ task validity</p>
+          <p><span>trajectory</span> ≠ flat transcript</p>
+          <p><span>RLVR</span> ≠ optimizer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="benchmarks">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>02</span> Benchmarks</p>
+          <h2>A benchmark is a measurement boundary—and a potential data mine.</h2>
+          <p>The evaluation unit expands from isolated functions to repositories, issue repair, professional workflows, terminal state, and autonomous AI R&amp;D. As the work unit grows, environment and verifier quality dominate prompt count.</p>
+        </div>
+
+        <div class="benchmark-ladder reveal" aria-label="Six coding benchmark work levels">
+          <article><span>01</span><h3>Function</h3><p>unit tests</p></article>
+          <article><span>02</span><h3>Repository</h3><p>context + dependencies</p></article>
+          <article><span>03</span><h3>Issue repair</h3><p>F2P + P2P</p></article>
+          <article><span>04</span><h3>Workflow</h3><p>feature · review · release</p></article>
+          <article><span>05</span><h3>Terminal</h3><p>final machine state</p></article>
+          <article><span>06</span><h3>AI R&amp;D</h3><p>trained checkpoint</p></article>
+        </div>
+
+        <div class="two-column">
+          <article class="statement-card dark reveal">
+            <p class="mini-label">Evaluation role</p>
+            <h3>Measurement instrument</h3>
+            <ul>
+              <li>Frozen or rolling held-out tasks</li>
+              <li>Versioned harness and verifier</li>
+              <li>Model × scaffold × budget × date</li>
+            </ul>
+          </article>
+          <article class="statement-card reveal">
+            <p class="mini-label">Training role</p>
+            <h3>Executable learning arena</h3>
+            <ul>
+              <li>Prompts, tests, traces, and rewards are consumed</li>
+              <li>Policy distribution changes through training</li>
+              <li>A separate evaluation boundary becomes mandatory</li>
+            </ul>
+          </article>
+        </div>
+
+        <aside class="audit-callout reveal">
+          <div class="audit-icon" aria-hidden="true">!</div>
+          <div>
+            <p class="mini-label">Benchmark lifecycle</p>
+            <h3>Public leaderboards are not timeless gold standards.</h3>
+            <p>The 2026 audits of SWE-bench Verified and the SWE-bench Pro public split make prompt–test validity, contamination, revision history, and access control first-class benchmark data.</p>
+          </div>
+          <a href="#papers" data-filter-link="Benchmarks">See benchmark sources</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section-teal" id="task-factory">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>03</span> Task Factory</p>
+          <h2>Prompt synthesis is joint task–environment–verifier construction.</h2>
+          <p>A natural-looking issue is not yet a valid agent task. The complete package must fail in the buggy state, pass under valid alternatives, reject near misses, replay stably, and expose no gold implementation.</p>
+        </div>
+
+        <div class="factory-flow reveal" aria-label="Task factory pipeline">
+          <article><span>1</span><h3>Trusted seed</h3><p>issue · commit · test · skill</p></article>
+          <i aria-hidden="true">→</i>
+          <article><span>2</span><h3>Task spec</h3><p>intent · constraints · difficulty</p></article>
+          <i aria-hidden="true">→</i>
+          <article><span>3</span><h3>Environment</h3><p>snapshot · runtime · reset</p></article>
+          <i aria-hidden="true">→</i>
+          <article><span>4</span><h3>Verifier stack</h3><p>functional · process · audit</p></article>
+          <i aria-hidden="true">→</i>
+          <article><span>5</span><h3>Freeze</h3><p>hash · version · lineage</p></article>
+        </div>
+
+        <div class="verifier-grid">
+          <article class="verifier-card reveal">
+            <span class="stack-number">I</span>
+            <h3>Functional</h3>
+            <p>Build, fail-to-pass, pass-to-pass, hidden behavior, mutation, and final-state assertions.</p>
+          </article>
+          <article class="verifier-card reveal">
+            <span class="stack-number">II</span>
+            <h3>Process</h3>
+            <p>Grounding, evidence, recovery, efficiency, minimality, and calibrated process reward.</p>
+          </article>
+          <article class="verifier-card reveal">
+            <span class="stack-number">III</span>
+            <h3>Audit</h3>
+            <p>Future-history access, grader edits, vacuous passes, reward hacks, and sandbox escape.</p>
+          </article>
+        </div>
+
+        <div class="loop-note reveal">
+          <span>Generate</span><i>→</i><span>Execute</span><i>→</i><span>Diagnose</span><i>→</i><span>Repair</span><i>→</i><span>Freeze</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trajectories">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>04</span> Trajectories</p>
+          <h2>The raw object is a rollout graph, not a successful transcript.</h2>
+          <p>Shared checkpoints and divergent actions expose local counterfactuals. A passing trace can exploit a weak test; a failing branch can contain the evidence and recovery that teach robust behavior.</p>
+        </div>
+
+        <figure class="feature-figure reveal">
+          <button class="figure-open" type="button" data-lightbox="assets/trajectories.png" aria-label="Open trajectory curation figure">
+            <img src="assets/trajectories.png" width="1440" height="643" loading="lazy" decoding="async" alt="A rollout graph routed through replay, policy, task, outcome, and behavior validation into SFT, preference, process, and reinforcement-learning views.">
+          </button>
+          <figcaption>
+            <div>
+              <span class="caption-label">Rollout graph → learning views</span>
+              Prune causal redundancy while preserving grounded evidence, recovery, and same-state alternatives.
+            </div>
+            <div class="figure-actions">
+              <button type="button" data-lightbox="assets/trajectories.png">Zoom</button>
+              <a href="assets/trajectories.png" download>Download PNG</a>
+              <a href="assets/coding_agent_data_survey.pdf#page=16">Paper section</a>
+            </div>
+          </figcaption>
+        </figure>
+
+        <div class="transform-grid">
+          <article class="transform-card reveal"><span>Trajectory</span><h3>select · reject · route</h3><p>Outcome, policy audit, cost, and diversity decide the product—not success alone.</p></article>
+          <article class="transform-card reveal"><span>Branch / segment</span><h3>retain recovery</h3><p>Preserve localization, diagnostic evidence, rollback, and corrected execution.</p></article>
+          <article class="transform-card reveal"><span>Shared state</span><h3>compare siblings</h3><p>Create causally local chosen/rejected actions for preference or value learning.</p></article>
+          <article class="transform-card reveal"><span>Token / context</span><h3>mask · compact</h3><p>Keep exact tools, paths, diffs, errors, and causal order while removing repetition.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-green" id="post-training">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>05</span> Post-training</p>
+          <h2>Algorithms consume different evidence; names alone do not define the data regime.</h2>
+          <p>Experience source, supervision, policy relation, and credit granularity are independent axes. The data question comes before the optimizer name.</p>
+        </div>
+
+        <div class="signal-router reveal">
+          <div class="router-row"><span>Demonstration</span><i>→</i><strong>SFT / behavior cloning</strong><small>compact + recovery traces</small></div>
+          <div class="router-row"><span>Verified success</span><i>→</i><strong>Rejection sampling</strong><small>iterative self-training</small></div>
+          <div class="router-row"><span>Same-state pair</span><i>→</i><strong>DPO / IPO / DMPO</strong><small>local counterfactual</small></div>
+          <div class="router-row"><span>Pointwise label</span><i>→</i><strong>KTO-style learning</strong><small>desirable / undesirable</small></div>
+          <div class="router-row"><span>Process evidence</span><i>→</i><strong>PRM / value learning</strong><small>segment or action credit</small></div>
+          <div class="router-row"><span>Task + env + verifier</span><i>→</i><strong>PPO / GRPO / RLOO</strong><small>online RL under RLVR</small></div>
+        </div>
+
+        <div class="orthogonal-notes">
+          <article class="note-card reveal">
+            <p class="mini-label">Do not collapse the taxonomy</p>
+            <h3>RLVR is a reward regime.</h3>
+            <p>PPO, GRPO, and RLOO are optimizer families. Rejection sampling is a data operator.</p>
+          </article>
+          <article class="note-card reveal">
+            <p class="mini-label">Credit granularity</p>
+            <h3>Trajectory → segment → state/action → token</h3>
+            <p>Finer credit is useful only when its verifier or intervention supports the attribution.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="frontiers">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>06</span> Lifecycle &amp; Frontiers</p>
+          <h2>A useful data flywheel must not consume its own evaluation.</h2>
+          <p>Immutable raw artifacts feed versioned training views. A frozen system crosses the evaluation firewall; only aggregate failure categories return to task construction.</p>
+        </div>
+
+        <figure class="feature-figure light-card reveal">
+          <button class="figure-open" type="button" data-lightbox="assets/lifecycle.png" aria-label="Open executable data lifecycle figure">
+            <img src="assets/lifecycle.png" width="1440" height="661" loading="lazy" decoding="async" alt="Task sources packaged as an executable experience bundle, routed to learning views, post-training, and held-out evaluation behind a firewall.">
+          </button>
+          <figcaption>
+            <div>
+              <span class="caption-label">Leakage-resistant lifecycle</span>
+              Immutable bundles, derived learning views, and a one-way held-out boundary.
+            </div>
+            <div class="figure-actions">
+              <button type="button" data-lightbox="assets/lifecycle.png">Zoom</button>
+              <a href="assets/lifecycle.png" download>Download PNG</a>
+              <a href="assets/coding_agent_data_survey.pdf#page=8">Paper section</a>
+            </div>
+          </figcaption>
+        </figure>
+
+        <div class="frontier-grid">
+          <article class="frontier-card reveal"><span>01</span><h3>Measurement validity</h3><p>How should a benchmark handle multiple valid solutions, contamination, and revision without losing comparability?</p></article>
+          <article class="frontier-card reveal"><span>02</span><h3>Construction &amp; replay</h3><p>Can synthetic tasks transfer across repositories, languages, services, and naturally occurring maintenance work?</p></article>
+          <article class="frontier-card reveal"><span>03</span><h3>Causal credit</h3><p>Which actions changed the reachable outcome, and which detours should be preserved as recovery?</p></article>
+          <article class="frontier-card reveal"><span>04</span><h3>Harness transfer</h3><p>Does a learned workflow survive new tools, context policies, action schemas, and verifier distributions?</p></article>
+          <article class="frontier-card reveal"><span>05</span><h3>Governance &amp; evidence</h3><p>What lineage, rights, cost, privacy, and reporting standard makes agent-generated data auditable?</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="papers">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>07</span> Paper explorer</p>
+          <h2>Browse the literature by its role in the data lifecycle.</h2>
+          <p>This compact index emphasizes what each work produces or consumes. It is a curated snapshot, not a claim of exhaustiveness.</p>
+        </div>
+
+        <div class="paper-tools reveal">
+          <label class="search-box">
+            <span class="sr-only">Search papers</span>
+            <span aria-hidden="true">⌕</span>
+            <input type="search" id="paper-search" placeholder="Search title, artifact, or data lesson…">
+          </label>
+          <div class="filter-chips" role="group" aria-label="Filter paper categories">
+            <button class="active" type="button" data-paper-filter="All">All</button>
+            <button type="button" data-paper-filter="Benchmarks">Benchmarks</button>
+            <button type="button" data-paper-filter="Task Factory">Task Factory</button>
+            <button type="button" data-paper-filter="Trajectories">Trajectories</button>
+            <button type="button" data-paper-filter="Post-training">Post-training</button>
+          </div>
+          <p class="paper-count" aria-live="polite"><strong id="paper-count">0</strong> works shown</p>
+        </div>
+        <div class="paper-grid" id="paper-grid"></div>
+        <noscript><p class="paper-empty">The interactive paper explorer requires JavaScript. The complete bibliography is available in the survey PDF.</p></noscript>
+        <p class="paper-empty" id="paper-empty" hidden>No works match this filter.</p>
+      </div>
+    </section>
+
+    <section class="section section-cite" id="cite">
+      <div class="shell cite-layout">
+        <div class="section-heading reveal">
+          <p class="section-kicker"><span>08</span> Citation</p>
+          <h2>Cite this survey.</h2>
+          <p>Versioned draft · evidence frozen 18 August 2026 · website updated 19 August 2026.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="assets/coding_agent_data_survey.pdf">Download PDF</a>
+            <a class="button button-secondary" href="https://linjh1118.github.io/">Jinghao Lin’s homepage</a>
+          </div>
+        </div>
+        <div class="bibtex-card reveal">
+          <div class="bibtex-top">
+            <span>BibTeX</span>
+            <button type="button" id="copy-bibtex">Copy BibTeX</button>
+          </div>
+          <pre id="bibtex">@article{lin2026codingagentdata,
+  title   = {From Issues to Learning Signals:
+             A Survey of Data for Coding Agents},
+  author  = {Lin, Jinghao},
+  year    = {2026},
+  note    = {Survey manuscript},
+  url     = {https://linjh1118.github.io/coding-agent-data/}
+}</pre>
+          <p class="copy-status" id="copy-status" role="status"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <div>
+        <a class="brand footer-brand" href="#top"><span class="brand-mark">d</span><span>Coding Agent Data</span></a>
+        <p>From issues, environments, and rollout graphs to reliable learning signals.</p>
+      </div>
+      <div class="footer-links">
+        <a href="assets/coding_agent_data_survey.pdf">Paper</a>
+        <a href="#papers">Paper index</a>
+        <a href="https://linjh1118.github.io/">Author</a>
+        <a href="#cite">Citation</a>
+      </div>
+      <p class="footer-meta">© 2026 Jinghao Lin · Figures and index released with the survey draft.</p>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="figure-lightbox" aria-label="Expanded survey figure">
+    <button class="lightbox-close" type="button" aria-label="Close expanded figure">×</button>
+    <img alt="">
+  </dialog>
+</body>
+</html>

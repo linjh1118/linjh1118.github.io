@@ -25,6 +25,7 @@ To complement my academic pursuits, I have gained valuable industry experience t
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
 # 🔥 Publications
+- *2026.08*: &nbsp;📚 Survey *"From Issues to Learning Signals: A Survey of Data for Coding Agents"* released, covering benchmarks, task–environment–verifier synthesis, trajectory pruning, and coding-agent post-training. [[Project Page]](/coding-agent-data/) [[PDF]](/coding-agent-data/assets/coding_agent_data_survey.pdf)
 - *2026.02*: &nbsp;🎉🎉 Paper *"MedXIAOHE: A Comprehensive Recipe for Building Medical MLLMs"* release! SOTA across diverse medical benchmarks, surpassing leading closed-source systems.
 - *2026.05*: &nbsp;🎉🎉 Papers *"GTPO and GRPO-S: Token and Sequence-Level Reward Shaping with Policy Entropy"* & *"Group-wise Data Ordering: Enhancing Instruction Tuning of Large Language Models via Embedding Proximity"* Accepted by ⭐️*ICML 2026*⭐️.
 - *2026.04*: &nbsp;🎉🎉 Paper *"DeepMed: Building a Medical DeepResearch Agent via Multi-hop Med-Search Data and Turn-Controlled Agentic Training & Inference"* Accepted by ⭐️*ACL 2026 Findings*⭐️.

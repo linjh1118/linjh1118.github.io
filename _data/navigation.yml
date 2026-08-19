@@ -9,6 +9,9 @@ main:
   - title: "Publications"
     url: "/#-publications"
 
+  - title: "Coding Agent Data"
+    url: "/coding-agent-data/"
+
   - title: "Knowledge"
     url: "/knowledge/"
 
