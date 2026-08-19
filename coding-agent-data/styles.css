@@ -99,14 +99,14 @@ a {
   height: 100vh;
   pointer-events: none;
   opacity: 0;
-  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
   contain: strict;
   will-change: opacity;
-  transition: opacity 180ms ease;
+  transition: opacity 220ms ease;
 }
 
 .cursor-comet.visible {
-  opacity: 0.92;
+  opacity: 1;
 }
 
 .shell {
