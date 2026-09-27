@@ -10,8 +10,8 @@
   <meta property="og:title" content="From Issues to Learning Signals">
   <meta property="og:description" content="A Survey of Data for Coding Agents">
   <meta property="og:image" content="https://linjh1118.github.io/coding-agent-data/assets/og.png">
-  <meta property="og:image:width" content="1731">
-  <meta property="og:image:height" content="909">
+  <meta property="og:image:width" content="1672">
+  <meta property="og:image:height" content="941">
   <meta property="og:image:alt" content="From Issues to Learning Signals: A Survey of Data for Coding Agents">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="From Issues to Learning Signals">
@@ -19,8 +19,13 @@
   <meta name="twitter:image" content="https://linjh1118.github.io/coding-agent-data/assets/og.png">
   <meta name="twitter:image:alt" content="From Issues to Learning Signals: A Survey of Data for Coding Agents">
   <title>From Issues to Learning Signals · Coding Agent Data Survey</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="styles.css">
+  <script src="papers.js" defer></script>
   <script src="site.js" defer></script>
 </head>
 <body>
@@ -29,7 +34,7 @@
   <header class="site-header" data-header>
     <nav class="nav-shell" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="Coding Agent Data home">
-        <span class="brand-mark" aria-hidden="true">d</span>
+        <span class="brand-mark" aria-hidden="true"><img src="assets/brand-mark.png" alt="" width="34" height="34" decoding="async"></span>
         <span>Coding Agent Data</span>
       </a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-menu">
@@ -75,7 +80,7 @@
         </div>
         <figure class="hero-card reveal">
           <button class="figure-open" type="button" data-lightbox="assets/hero.png" aria-label="Open cover illustration">
-            <img src="assets/hero.png" width="1440" height="805" fetchpriority="high" decoding="async" alt="An illustrated coding-agent data factory linking task sources, executable environments, rollout graphs, learning signals, and held-out evaluation.">
+            <img src="assets/hero.png" width="1672" height="941" fetchpriority="high" decoding="async" alt="An illustrated coding-agent data factory linking task sources, executable environments, rollout graphs, learning signals, and held-out evaluation.">
           </button>
           <figcaption>
             <span class="caption-label">Survey overview</span>
@@ -95,7 +100,7 @@
 
         <figure class="feature-figure portrait-figure reveal">
           <button class="figure-open" type="button" data-lightbox="assets/taxonomy.png" aria-label="Open the taxonomy mind map">
-            <img src="assets/taxonomy.png" width="1116" height="1508" loading="lazy" decoding="async" alt="Mind map with four branches: benchmarks, task-environment-verifier construction, trajectories, and post-training, centered on the executable experience bundle.">
+            <img src="assets/taxonomy.png" width="1079" height="1458" loading="lazy" decoding="async" alt="Mind map with four branches: benchmarks, task-environment-verifier construction, trajectories, and post-training, centered on the executable experience bundle.">
           </button>
           <figcaption>
             <div>
@@ -246,7 +251,7 @@
 
         <figure class="feature-figure reveal">
           <button class="figure-open" type="button" data-lightbox="assets/trajectories.png" aria-label="Open trajectory curation figure">
-            <img src="assets/trajectories.png" width="1440" height="643" loading="lazy" decoding="async" alt="A rollout graph routed through replay, policy, task, outcome, and behavior validation into SFT, preference, process, and reinforcement-learning views.">
+            <img src="assets/trajectories.png" width="1850" height="850" loading="lazy" decoding="async" alt="A rollout graph routed through replay, policy, task, outcome, and behavior validation into SFT, preference, process, and reinforcement-learning views.">
           </button>
           <figcaption>
             <div>
@@ -312,7 +317,7 @@
 
         <figure class="feature-figure light-card reveal">
           <button class="figure-open" type="button" data-lightbox="assets/lifecycle.png" aria-label="Open executable data lifecycle figure">
-            <img src="assets/lifecycle.png" width="1440" height="661" loading="lazy" decoding="async" alt="Task sources packaged as an executable experience bundle, routed to learning views, post-training, and held-out evaluation behind a firewall.">
+            <img src="assets/lifecycle.png" width="1850" height="850" loading="lazy" decoding="async" alt="Task sources packaged as an executable experience bundle, routed to learning views, post-training, and held-out evaluation behind a firewall.">
           </button>
           <figcaption>
             <div>
@@ -342,14 +347,14 @@
         <div class="section-heading reveal">
           <p class="section-kicker"><span>07</span> Paper explorer</p>
           <h2>Browse the literature by its role in the data lifecycle.</h2>
-          <p>This compact index emphasizes what each work produces or consumes. It is a curated snapshot, not a claim of exhaustiveness.</p>
+          <p>Explore 85 works from <a href="https://github.com/linjh1118/coding-agent-data-survey#readme">Awesome Data for Coding Agents</a>, covering six branches and further reading. Descriptions and links follow the README snapshot of 26 September 2026. Works may appear under multiple filters.</p>
         </div>
 
         <div class="paper-tools reveal">
           <label class="search-box">
             <span class="sr-only">Search papers</span>
             <span aria-hidden="true">⌕</span>
-            <input type="search" id="paper-search" placeholder="Search title, artifact, or data lesson…">
+            <input type="search" id="paper-search" placeholder="Search title, topic, year, or data contribution">
           </label>
           <div class="filter-chips" role="group" aria-label="Filter paper categories">
             <button class="active" type="button" data-paper-filter="All">All</button>
@@ -357,11 +362,14 @@
             <button type="button" data-paper-filter="Task Factory">Task Factory</button>
             <button type="button" data-paper-filter="Trajectories">Trajectories</button>
             <button type="button" data-paper-filter="Post-training">Post-training</button>
+            <button type="button" data-paper-filter="Validity">Validity</button>
+            <button type="button" data-paper-filter="Data Systems">Data Systems</button>
+            <button type="button" data-paper-filter="Further Reading">Further Reading</button>
           </div>
           <p class="paper-count" aria-live="polite"><strong id="paper-count">0</strong> works shown</p>
         </div>
         <div class="paper-grid" id="paper-grid"></div>
-        <noscript><p class="paper-empty">The interactive paper explorer requires JavaScript. The complete bibliography is available in the survey PDF.</p></noscript>
+        <noscript><p class="paper-empty">The interactive paper explorer requires JavaScript. Browse the <a href="https://github.com/linjh1118/coding-agent-data-survey#readme">source README</a> for this literature index.</p></noscript>
         <p class="paper-empty" id="paper-empty" hidden>No works match this filter.</p>
       </div>
     </section>
@@ -399,7 +407,7 @@
   <footer class="site-footer">
     <div class="shell footer-layout">
       <div>
-        <a class="brand footer-brand" href="#top"><span class="brand-mark">d</span><span>Coding Agent Data</span></a>
+        <a class="brand footer-brand" href="#top"><span class="brand-mark"><img src="assets/brand-mark.png" alt="" width="34" height="34" decoding="async"></span><span>Coding Agent Data</span></a>
         <p>From issues, environments, and rollout graphs to reliable learning signals.</p>
       </div>
       <div class="footer-links">

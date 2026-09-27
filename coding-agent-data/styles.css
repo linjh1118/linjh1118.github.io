@@ -156,13 +156,22 @@ a {
   place-items: center;
   width: 34px;
   height: 34px;
+  overflow: hidden;
   border-radius: 11px;
   color: white;
-  background: linear-gradient(135deg, var(--teal), var(--blue));
+  background: #ffffff;
   font-family: Georgia, serif;
   font-size: 1.25rem;
   font-style: italic;
   box-shadow: 0 8px 20px rgba(35, 103, 201, 0.24);
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-links {
@@ -448,6 +457,7 @@ a {
 
 .figure-open img {
   width: 100%;
+  height: auto;
   transition: transform 350ms ease;
 }
 
@@ -1007,7 +1017,7 @@ a {
 
 .paper-tools {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) auto auto;
+  grid-template-columns: minmax(260px, 1fr) auto;
   align-items: center;
   gap: 18px;
   margin-bottom: 30px;
@@ -1039,6 +1049,8 @@ a {
 }
 
 .filter-chips {
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -1065,6 +1077,8 @@ a {
 }
 
 .paper-count {
+  grid-column: 2;
+  grid-row: 1;
   margin: 0;
   color: var(--muted);
   font-size: 0.72rem;
@@ -1588,4 +1602,11 @@ a {
   .cursor-comet {
     display: none;
   }
+}
+
+/* Keep full README titles and topic labels within the original cards. */
+.paper-card { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .paper-tools { grid-template-columns: minmax(0, 1fr); }
+  .paper-count { grid-column: 1; grid-row: 3; }
 }
