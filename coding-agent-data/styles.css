@@ -1,3 +1,75 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/inter-400.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(assets/fonts/inter-500.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/inter-600.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(assets/fonts/inter-700.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/inter-800.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(assets/fonts/inter-900.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/sora-600.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(assets/fonts/sora-700.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/sora-800.ttf) format('truetype');
+}
+
 :root {
   --navy: #10223f;
   --ink: #182235;
@@ -35,9 +107,14 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.6;
+  font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: "Sora", "Inter", sans-serif;
+  font-weight: 700;
 }
 
 body.menu-open {
@@ -154,8 +231,8 @@ a {
 .brand-mark {
   display: inline-grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   overflow: hidden;
   border-radius: 11px;
   color: white;
@@ -169,7 +246,7 @@ a {
 .brand-mark img {
   width: 100%;
   height: 100%;
-  padding: 3px;
+  padding: 0;
   object-fit: contain;
   display: block;
 }
@@ -184,7 +261,7 @@ a {
   position: relative;
   padding: 24px 0 22px;
   color: #4c5a6e;
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -236,7 +313,7 @@ a {
 .hero {
   position: relative;
   min-height: 100vh;
-  padding: 126px 0 76px;
+  padding: 112px 0 64px;
   overflow: hidden;
   background:
     radial-gradient(circle at 78% 22%, rgba(35, 103, 201, 0.12), transparent 28%),
@@ -282,9 +359,8 @@ a {
 .hero-layout {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.84fr) minmax(500px, 1.16fr);
-  align-items: center;
-  gap: clamp(48px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
 }
 
 .eyebrow,
@@ -293,7 +369,7 @@ a {
 .caption-label {
   margin: 0;
   color: var(--teal);
-  font-size: 0.76rem;
+  font-size: 0.9375rem;
   font-weight: 850;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -314,12 +390,13 @@ a {
 }
 
 .hero h1 {
-  max-width: 650px;
-  margin: 22px 0 12px;
+  max-width: none;
+  margin: 16px 0 12px;
   color: var(--navy);
-  font-size: clamp(3.5rem, 6.1vw, 6.5rem);
-  line-height: 0.93;
-  letter-spacing: -0.065em;
+  font-size: clamp(2.25rem, 4.4vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 .hero h1 span {
@@ -334,7 +411,7 @@ a {
   color: var(--navy);
   font-size: clamp(1.35rem, 2vw, 1.85rem);
   font-weight: 700;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
 }
 
 .hero-thesis {
@@ -374,7 +451,7 @@ a {
   padding: 0 18px;
   border: 1px solid transparent;
   border-radius: 13px;
-  font-size: 0.82rem;
+  font-size: 0.9375rem;
   font-weight: 800;
   text-decoration: none;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
@@ -429,7 +506,7 @@ a {
   display: block;
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
 }
 
 .hero-card,
@@ -443,7 +520,7 @@ a {
 }
 
 .hero-card {
-  transform: rotate(1deg);
+  width: 100%;
 }
 
 .figure-open {
@@ -475,7 +552,7 @@ a {
   padding: 18px 22px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
 }
 
 .caption-label {
@@ -519,7 +596,7 @@ a {
 }
 
 .section-heading {
-  max-width: 850px;
+  max-width: 960px;
   margin: 0 auto 52px;
   text-align: center;
 }
@@ -537,22 +614,24 @@ a {
   height: 30px;
   border: 1px solid currentColor;
   border-radius: 50%;
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
 }
 
 .section-heading h2 {
   margin: 20px 0 14px;
   color: var(--navy);
   font-size: clamp(2.1rem, 4.2vw, 4.2rem);
-  line-height: 1.04;
-  letter-spacing: -0.055em;
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
 }
 
 .section-heading > p:last-child {
-  max-width: 790px;
+  max-width: 900px;
   margin: 0 auto;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.8;
 }
 
 .section-dark .section-heading h2,
@@ -594,7 +673,7 @@ a {
   border: 0;
   color: var(--teal);
   background: transparent;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 800;
   text-decoration: none;
   cursor: pointer;
@@ -631,7 +710,7 @@ a {
 
 .lens-card > span {
   color: currentColor;
-  font-size: 0.74rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -645,7 +724,7 @@ a {
 .lens-card p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.9375rem;
 }
 
 .lens-card.blue { color: var(--blue); }
@@ -669,7 +748,7 @@ a {
   padding: 18px 14px;
   background: white;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
   text-align: center;
 }
 
@@ -707,7 +786,7 @@ a {
 
 .benchmark-ladder span {
   color: var(--blue);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -720,7 +799,7 @@ a {
 .benchmark-ladder p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
 }
 
 .two-column,
@@ -763,7 +842,7 @@ a {
   margin: 0;
   padding-left: 20px;
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.9375rem;
 }
 
 .statement-card.dark ul {
@@ -803,12 +882,12 @@ a {
 .audit-callout p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.83rem;
+  font-size: 0.9375rem;
 }
 
 .audit-callout > a {
   color: var(--red);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 850;
   text-decoration: none;
 }
@@ -836,7 +915,7 @@ a {
 .factory-flow article span,
 .stack-number {
   color: var(--teal);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -849,7 +928,7 @@ a {
 .factory-flow p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
 }
 
 .factory-flow > i,
@@ -890,7 +969,7 @@ a {
 .transform-card p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.9375rem;
 }
 
 .loop-note {
@@ -905,7 +984,7 @@ a {
   border-radius: 16px;
   color: var(--navy);
   background: rgba(255, 255, 255, 0.6);
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
   font-weight: 800;
 }
 
@@ -915,7 +994,7 @@ a {
 
 .transform-card span {
   color: var(--orange);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -948,7 +1027,7 @@ a {
 
 .router-row > span {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
@@ -979,7 +1058,7 @@ a {
 .note-card p:last-child {
   margin: 0;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.9375rem;
 }
 
 .light-card {
@@ -1000,7 +1079,7 @@ a {
 
 .frontier-card span {
   color: #86d3c9;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -1012,7 +1091,7 @@ a {
 
 .frontier-card p {
   color: #c6d3e4;
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
 }
 
 .paper-tools {
@@ -1045,7 +1124,7 @@ a {
   outline: 0;
   color: var(--ink);
   background: transparent;
-  font-size: 0.82rem;
+  font-size: 0.9375rem;
 }
 
 .filter-chips {
@@ -1063,7 +1142,7 @@ a {
   border-radius: 99px;
   color: var(--muted);
   background: white;
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -1081,7 +1160,7 @@ a {
   grid-row: 1;
   margin: 0;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   white-space: nowrap;
 }
 
@@ -1114,7 +1193,7 @@ a {
   justify-content: space-between;
   gap: 10px;
   color: var(--muted);
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
   font-weight: 750;
 }
 
@@ -1125,14 +1204,14 @@ a {
 .paper-card h3 {
   margin: 28px 0 10px;
   color: var(--navy);
-  font-size: 1rem;
-  line-height: 1.28;
+  font-size: 1.0625rem;
+  line-height: 1.45;
 }
 
 .paper-card > p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
 }
 
 .paper-tags {
@@ -1148,7 +1227,7 @@ a {
   border-radius: 99px;
   color: #4e5e73;
   background: #edf2f7;
-  font-size: 0.61rem;
+  font-size: 0.8125rem;
   font-weight: 750;
 }
 
@@ -1157,7 +1236,7 @@ a {
   align-items: center;
   margin-top: 16px;
   color: var(--teal);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 850;
   text-decoration: none;
 }
@@ -1200,7 +1279,7 @@ a {
   padding: 14px 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   color: #a9bad0;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 800;
 }
 
@@ -1210,7 +1289,7 @@ a {
   border-radius: 8px;
   color: white;
   background: rgba(255, 255, 255, 0.08);
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -1220,7 +1299,7 @@ a {
   padding: 24px;
   overflow-x: auto;
   font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   line-height: 1.65;
   white-space: pre-wrap;
 }
@@ -1230,7 +1309,7 @@ a {
   margin: 0;
   padding: 0 24px 10px;
   color: #91dccf;
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
 }
 
 .site-footer {
@@ -1253,7 +1332,7 @@ a {
 .footer-layout p {
   max-width: 520px;
   margin: 14px 0 0;
-  font-size: 0.78rem;
+  font-size: 0.9375rem;
 }
 
 .footer-links {
@@ -1263,7 +1342,7 @@ a {
 
 .footer-links a {
   color: #d2deed;
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 750;
   text-decoration: none;
 }
@@ -1332,11 +1411,6 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .hero-copy {
-    max-width: 760px;
-    text-align: center;
-    margin-inline: auto;
-  }
 
   .eyebrow,
   .hero-actions {
@@ -1348,11 +1422,6 @@ a {
     margin-inline: auto;
   }
 
-  .hero-card {
-    max-width: 900px;
-    margin-inline: auto;
-    transform: none;
-  }
 
   .lens-grid,
   .transform-grid {
@@ -1500,7 +1569,7 @@ a {
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 15vw, 4.8rem);
+    font-size: clamp(2.25rem, 7.8vw, 3.25rem);
   }
 
   .metric-strip {
@@ -1575,12 +1644,6 @@ a {
   }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .cursor-comet {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1599,9 +1662,6 @@ a {
     transform: none;
   }
 
-  .cursor-comet {
-    display: none;
-  }
 }
 
 /* Keep full README titles and topic labels within the original cards. */
@@ -1609,4 +1669,57 @@ a {
 @media (max-width: 600px) {
   .paper-tools { grid-template-columns: minmax(0, 1fr); }
   .paper-count { grid-column: 1; grid-row: 3; }
+}
+
+/* Typography rhythm for text-dense sections. */
+.paper-meta { align-items: baseline; font-size: 0.75rem; }
+.paper-tags span { font-size: 0.75rem; line-height: 1.5; }
+.paper-card h3 { margin-top: 20px; }
+.paper-card > p { line-height: 1.75; }
+.nav-links a { font-size: 0.8125rem; }
+.section-kicker { font-size: 0.8125rem; }
+@media (max-width: 680px) {
+  .section-heading { margin-bottom: 36px; }
+  .section-heading h2 { line-height: 1.22; }
+}
+
+/* Light lives on the card surface; the native cursor stays unchanged. */
+.paper-card, .lens-card, .frontier-card, .transform-card, .note-card {
+  position: relative;
+  isolation: isolate;
+}
+.paper-card::before, .lens-card::before, .frontier-card::before,
+.transform-card::before, .note-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(180px circle at var(--light-x, 50%) var(--light-y, 50%), rgba(8, 114, 103, 0.10), transparent 75%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.card-lit::before { opacity: 1; }
+.section-dark .card-lit::before {
+  background: radial-gradient(180px circle at var(--light-x, 50%) var(--light-y, 50%), rgba(119, 216, 206, 0.16), transparent 75%);
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-comet { display: none; }
+}
+
+/* Full-width opening: title, supporting copy, then the overview figure. */
+.hero-copy { width: 100%; text-align: center; }
+.hero-copy .eyebrow, .hero-copy .hero-actions { justify-content: center; }
+.hero-copy .hero-subtitle { margin-bottom: 10px; font-size: clamp(1.125rem, 1.8vw, 1.5rem); }
+.hero-copy .hero-thesis { max-width: 900px; margin-inline: auto; }
+.hero-copy .author-line { margin-top: 12px; }
+.hero-copy .hero-actions { margin-top: 20px; }
+.hero-layout > .metric-strip { width: 100%; max-width: 780px; margin: 0 auto; text-align: center; }
+@media (max-width: 680px) {
+  .hero-layout { gap: 24px; }
+  .hero-copy .eyebrow { font-size: 0.75rem; }
+  .hero-copy .hero-thesis { font-size: 1rem; }
+  .hero-card figcaption { padding: 14px 16px; }
 }

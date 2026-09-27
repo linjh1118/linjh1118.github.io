@@ -6,6 +6,40 @@
   var menu = document.getElementById("site-menu");
   var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
 
+  function setupCardLight() {
+    var pointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var activeCard = null;
+    var selector = ".paper-card, .lens-card, .frontier-card, .transform-card, .note-card";
+
+    function clear() {
+      if (activeCard) activeCard.classList.remove("card-lit");
+      activeCard = null;
+    }
+
+    document.addEventListener("pointermove", function (event) {
+      if (!pointer.matches || reducedMotion.matches) return;
+      var card = event.target.closest(selector);
+      if (card !== activeCard) {
+        clear();
+        activeCard = card;
+      }
+      if (!card) return;
+      var bounds = card.getBoundingClientRect();
+      card.style.setProperty("--light-x", (event.clientX - bounds.left) + "px");
+      card.style.setProperty("--light-y", (event.clientY - bounds.top) + "px");
+      card.classList.add("card-lit");
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", clear);
+    window.addEventListener("blur", clear);
+    window.addEventListener("pagehide", clear);
+    document.addEventListener("visibilitychange", clear);
+    pointer.addEventListener("change", clear);
+    reducedMotion.addEventListener("change", clear);
+  }
+
+  setupCardLight();
+
   function setupCursorComet() {
     var canvas = document.querySelector(".cursor-comet");
     if (!canvas || !canvas.getContext || !window.matchMedia) return;

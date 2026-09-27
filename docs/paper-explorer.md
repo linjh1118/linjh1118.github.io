@@ -14,4 +14,4 @@ python3 scripts/import_papers.py /Users/yzb/Desktop/research/exp48_awesome-data-
 
 验证：JavaScript 语法通过；原有 19 条字段逐项相等；85 个唯一主链接；全部文献条目已读取。浏览器显示 85 张卡片，七类筛选分别返回 20、22、20、21、3、6、6 条；由于分类可重叠，数量不能相加。HumanEval 搜索返回 1 条，未匹配查询显示空结果，清空恢复 85 条。390px 视口下页面宽度为 390px，无横向溢出。
 
-修改仅在本地，尚未发布。
+文献扩充已随提交 `16956a9` 推送到远端 main。
