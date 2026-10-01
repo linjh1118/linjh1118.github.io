@@ -25,7 +25,7 @@ To complement my academic pursuits, I have gained valuable industry experience t
 Looking ahead, I am committed to further exploring the intersection of theoretical advancements and practical applications in the field of NLP. I am always open to collaboration and eager to engage with like-minded researchers and professionals. If you share similar interests or have any opportunities for collaboration, please feel free to reach out!
 
 # 🔥 Publications
-- *2026.10*: &nbsp;🎉 2 papers accepted to ⭐️*NeurIPS 2026*⭐️: **REAL-MED** & **EasyLens**!
+- *2026.10*: &nbsp;🎉 2 papers accepted to ⭐️*NeurIPS 2026*⭐️: **EasyLens** & **REAL-MED**!
 - *2026.08*: &nbsp;🎉 5👋 papers accepted to ⭐️*EMNLP 2026*⭐️! Looking forward to coffee chats in Budapest!
 - *2026.08*: &nbsp;📚 Survey *"From Issues to Learning Signals: A Survey of Data for Coding Agents"* released, covering benchmarks, task–environment–verifier synthesis, trajectory pruning, and coding-agent post-training. [[Project Page]](/coding-agent-data/) [[PDF]](/coding-agent-data/assets/coding_agent_data_survey.pdf)
 - *2026.02*: &nbsp;🎉🎉 Paper *"MedXIAOHE: A Comprehensive Recipe for Building Medical MLLMs"* release! SOTA across diverse medical benchmarks, surpassing leading closed-source systems.
